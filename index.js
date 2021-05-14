@@ -230,6 +230,14 @@ if(!fs.existsSync(final_folder)) {
 
                                                     zip.addLocalFolder('./SD/')
                                                     zip.writeZip('./pack.zip');
+                                                    zip.toBuffer((buffer, err) => {
+                                                        if(err) reject(err)
+                                                        if(buffer) {
+                                                            fs.emptyDirSync('./temp/', { recursive: true })
+                                                            console.log('Contenu du dossier "./temp" supprimé.');
+                                                            console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
+                                                        }
+                                                    });
                                                 }).catch((error) => {
                                                     console.log(chalk.red(error));
                                                 });
