@@ -105,7 +105,7 @@ if(!fs.existsSync(final_folder)) {
     const filesLength = files.length;
     let downloadedFiles = 0;
     
-    /*for (let file of files) {
+    for (let file of files) {
         const { name, url } = file;
         let bar;
         
@@ -143,7 +143,7 @@ if(!fs.existsSync(final_folder)) {
     else
         console.log(chalk.bold.keyword('orange')(`\n${downloadedFiles}/${filesLength} fichiers ont été téléchargés.`));
 
-    console.log('\nPréparation du dossier "SD"...');*/
+    console.log('\nPréparation du dossier "SD"...');
 
     let temp_files = fs.readdirSync(output_folder);
     let zip_temp_files = temp_files.filter(f => f.endsWith('.zip'));
