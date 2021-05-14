@@ -66,7 +66,7 @@ if(!fs.existsSync(final_folder)) {
         return desiredFiles;
     };
     
-    const desiredReleases = [{ link: 'CTCaer/hekate', desiredNumbers: [1], desiredNames: ['hekate.zip'] }, { link: 'Atmosphere-NX/Atmosphere', desiredNumbers: [2, 3], desiredNames: ['atmosphere.zip', 'fusee_primary.bin'] }, { link: 'ITotalJustice/patches', desiredNumbers: [1], desiredNames: ['fusee.zip'] }, { link: 'Huntereb/Awoo-Installer', desiredNumbers: [1], desiredNames: ['awoo_installer.zip'] }, ];
+    const desiredReleases = [{ link: 'CTCaer/hekate', desiredNumbers: [1], desiredNames: ['hekate.zip'] }, { link: 'Atmosphere-NX/Atmosphere', desiredNumbers: [2, 3], desiredNames: ['atmosphere.zip', 'fusee_primary.bin'] }, { link: 'ITotalJustice/patches', desiredNumbers: [1], desiredNames: ['fusee.zip'] }, { link: 'Huntereb/Awoo-Installer', desiredNumbers: [1], desiredNames: ['awoo_installer.zip'] }, { link: 'WerWolv/EdiZon', desiredNumbers: [1], desiredNames: ['EdiZon.nro'] }, { link: 'XorTroll/Goldleaf', desiredNumbers: [1], desiredNames: ['Goldleaf.nro'] }, { link: 'SciresM/Checkpoint', desiredNumbers: [1], desiredNames: ['Checkpoint.nro'] }, { link: 'J-D-K/JKSV', desiredNumbers: [1], desiredNames: ['JKSV.nro'] }, { link: 'mtheall/ftpd', desiredNumbers: [13], desiredNames: ['ftpd.nro'] }, { link: 'liuervehc/nxmtp', desiredNumbers: [1], desiredNames: ['nxmtp.nro'] }, { link: 'mrdude2478/TinWoo', desiredNumbers: [1], desiredNames: ['TinWoo-Installer.zip'] }, { link: 'meganukebmp/Switch_90DNS_tester', desiredNumbers: [1], desiredNames: ['Switch_90DNS_tester.nro'] }];
     
     let files = [];
 
@@ -212,11 +212,27 @@ if(!fs.existsSync(final_folder)) {
                                             
                                             fs.copy('./temp/emummc.txt', './SD/atmosphere/hosts/emummc.txt').then(() => {
                                                 console.log(chalk.green(`Fichier ${chalk.bold("./temp/emummc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/emummc.txt")}.`));
-                                                
-                                                /*var zip = new AdmZip();
+                                            
+                                                fs.copy('./temp/TinWoo-Installer/', './SD/').then(() => {
+                                                    console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/TinWoo-Installer/")} copié dans ${chalk.bold("./SD/")}.`));
 
-                                                zip.addLocalFolder('./SD/')
-                                                zip.writeZip('./pack.zip');*/
+                                                    let homebrews = fs.readdirSync(output_folder).filter(f => f.endsWith('nro'));
+
+                                                    for (let homebrew of homebrews) {
+                                                        fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`).then(() => {
+                                                            console.log(chalk.green(`Fichier ${chalk.bold(`./temp/${homebrew}`)} copié dans ${chalk.bold(`./SD/switch/${homebrew}`)}.`));
+                                                        }).catch((error) => {
+                                                            console.log(chalk.red(error));
+                                                        });
+                                                    }
+
+                                                    let zip = new AdmZip();
+
+                                                    zip.addLocalFolder('./SD/')
+                                                    zip.writeZip('./pack.zip');
+                                                }).catch((error) => {
+                                                    console.log(chalk.red(error));
+                                                });
                                             }).catch((error) => {
                                                 console.log(chalk.red(error));
                                             });
