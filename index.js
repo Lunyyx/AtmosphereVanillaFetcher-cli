@@ -42,7 +42,7 @@ if(!fs.existsSync(final_folder)) {
             console.log(chalk.red('La clé d\'accès API GitHub est erronnée, veuillez en spécifier une de correcte dans le fichier .env.'));
             process.exit();
         } else if (release.headers.get('x-ratelimit-remaining') == 0) {
-            console.log(chalk.red(`Vous avez dépassé le nombre de requêtes maximum par heure, vous devez attendre ${chalk.bold(moment(Number(release.headers.get('x-ratelimit-reset')) * 1000).format('ddd LL, LTS'))} avant de pour réutiliser le programme.`));
+            console.log(chalk.red(`Vous avez dépassé le nombre de requêtes maximum par heure, vous devez attendre ${chalk.bold(moment(Number(release.headers.get('x-ratelimit-reset')) * 1000).format('ddd LL, LTS'))} avant de pouvoir réutiliser le programme.`));
             process.exit();
         };
 
