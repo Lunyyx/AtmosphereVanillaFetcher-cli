@@ -4,7 +4,7 @@ Petit programme permettant de télécharger un pack des toutes dernières mises 
 
 # 🤔 Comment utiliser ce programme ?
 
-L'utilisation de ce programme est très simple.
+Le programme est automatique, c'est-à-dire qu'il ne nécessite aucune action de votre part pendant son fonctionnement.
 
 Afin d'éviter la limite de requêtes de l'API GitHub, vous devez utiliser votre token de compte afin de pouvoir utiliser ce programme. (Une version sans token arrivera peut-être dans le futur) 
 
