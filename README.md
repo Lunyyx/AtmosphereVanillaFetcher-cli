@@ -32,7 +32,7 @@ Vous avez désormais votre token, vous pouvez passer à la suite !
 ```
 GITHUB_TOKEN=votre_token_ici
 ```
-(Remplacez évidemment **votre_token_ici* par votre token GitHub.)
+(Remplacez évidemment **votre_token_ici** par votre token GitHub.)
 
 2. Ouvrez le programme, si tout se passe bien, le programme devrait télécharger les fichiers, les organiser et les compresser dans un fichier nommé **pack.zip** qui sera présent à la racine du programme.
 
