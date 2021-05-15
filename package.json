@@ -24,6 +24,7 @@
     "cryptocipher": "^3.0.6",
     "dotenv": "^9.0.2",
     "fs-extra": "^10.0.0",
+    "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "node-stream-zip": "^1.13.4",
     "node-wget-js": "^1.0.1",
