@@ -57,7 +57,8 @@ if(!fs.existsSync(final_folder)) {
             if (assets[number]) {
                 desiredFiles.push({
                     name: desiredNames[nameIndex],
-                    url: assets[number].browser_download_url
+                    url: assets[number].browser_download_url,
+                    version: release.tag_name
                 });
             };
             nameIndex++;
@@ -78,27 +79,38 @@ if(!fs.existsSync(final_folder)) {
 
     files.push({
         name: 'sxgear.zip',
-        url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip'
+        url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip',
+        version: 'v1.1'
+    });
+
+    files.push({
+        name: 'tinfoil.zip',
+        url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip',
+        version: 'v12.0'
     });
 
     files.push({
         name: 'hekate_ipl.ini',
-        url: 'https://nobuyoshi.red/hekate_ipl.ini'
+        url: 'https://nobuyoshi.red/hekate_ipl.ini',
+        version: 'latest'
     });
 
     files.push({
         name: 'exosphere.ini',
-        url: 'https://nobuyoshi.red/exosphere.ini'
+        url: 'https://nobuyoshi.red/exosphere.ini',
+        version: 'latest'
     });
 
     files.push({
         name: 'sysmmc.txt',
-        url: 'https://nobuyoshi.red/sysmmc.txt'
+        url: 'https://nobuyoshi.red/sysmmc.txt',
+        version: 'latest'
     });
 
     files.push({
         name: 'emummc.txt',
-        url: 'https://nobuyoshi.red/emummc.txt'
+        url: 'https://nobuyoshi.red/emummc.txt',
+        version: 'latest'
     });
 
     console.log('Téléchargement des différents fichiers nécessaires au pack:');
@@ -106,7 +118,7 @@ if(!fs.existsSync(final_folder)) {
     let downloadedFiles = 0;
     
     for (let file of files) {
-        const { name, url } = file;
+        const { name, url, version } = file;
         let bar;
         
         let downloader = new Downloader({
@@ -115,7 +127,7 @@ if(!fs.existsSync(final_folder)) {
             filename: name,
             cloneFiles: false,
             onBeforeSave:()=>{
-                console.log(`\nDébut du téléchargement de: ${name}`);
+                console.log(`\nDébut du téléchargement de: ${name} (${version})`);
                 bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
                 bar.start(100, 0);
             },   
@@ -216,27 +228,39 @@ if(!fs.existsSync(final_folder)) {
                                                 fs.copy('./temp/TinWoo-Installer/', './SD/').then(() => {
                                                     console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/TinWoo-Installer/")} copié dans ${chalk.bold("./SD/")}.`));
 
-                                                    let homebrews = fs.readdirSync(output_folder).filter(f => f.endsWith('nro'));
+                                                    fs.copy('./temp/tinfoil/', './SD/').then(() => {
+                                                        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/tinfoil/")} copié dans ${chalk.bold("./SD/")}.`));
 
-                                                    for (let homebrew of homebrews) {
-                                                        fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`).then(() => {
-                                                            console.log(chalk.green(`Fichier ${chalk.bold(`./temp/${homebrew}`)} copié dans ${chalk.bold(`./SD/switch/${homebrew}`)}.`));
-                                                        }).catch((error) => {
-                                                            console.log(chalk.red(error));
-                                                        });
-                                                    }
+                                                        let homebrews = fs.readdirSync(output_folder).filter(f => f.endsWith('nro'));
 
-                                                    let zip = new AdmZip();
-
-                                                    zip.addLocalFolder('./SD/')
-                                                    zip.writeZip('./pack.zip');
-                                                    zip.toBuffer((buffer, err) => {
-                                                        if(err) reject(err)
-                                                        if(buffer) {
-                                                            fs.emptyDirSync('./temp/', { recursive: true })
-                                                            console.log('Contenu du dossier "./temp" supprimé.');
-                                                            console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
+                                                        for (let homebrew of homebrews) {
+                                                            fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`).then(() => {
+                                                                console.log(chalk.green(`Fichier ${chalk.bold(`./temp/${homebrew}`)} copié dans ${chalk.bold(`./SD/switch/${homebrew}`)}.`));
+                                                            }).catch((error) => {
+                                                                console.log(chalk.red(error));
+                                                            });
                                                         }
+                                                                        
+                                                        let zip = new AdmZip();
+
+                                                        zip.addLocalFolder('./SD/')
+                                                        zip.writeZip('./pack.zip');
+                                                        zip.toBuffer((buffer, err) => {
+                                                            console.log('pack.zip en cours de création...')
+                                                            if(err) reject(err)
+                                                            console.log('\nContenu du pack:')
+                                                            for (let file of files) {
+                                                                const { name, version } = file;
+                                                                console.log(`${name} (${version})`);
+                                                            }
+                                                            if(buffer) {
+                                                                fs.emptyDirSync('./temp/', { recursive: true })
+                                                                console.log('Contenu du dossier "./temp" supprimé.');
+                                                                console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
+                                                            }
+                                                        });
+                                                    }).catch((error) => {
+                                                        console.log(chalk.red(error));
                                                     });
                                                 }).catch((error) => {
                                                     console.log(chalk.red(error));
