@@ -57,7 +57,8 @@ if(!fs.existsSync(final_folder)) {
             if (assets[number]) {
                 desiredFiles.push({
                     name: desiredNames[nameIndex],
-                    url: assets[number].browser_download_url
+                    url: assets[number].browser_download_url,
+                    version: release.tag_name
                 });
             };
             nameIndex++;
