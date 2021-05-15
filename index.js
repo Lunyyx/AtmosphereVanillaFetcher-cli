@@ -6,7 +6,8 @@ const cliProgress = require('cli-progress');
 const chalk = require('chalk');
 const {PythonShell} = require('python-shell');
 const moment = require('moment');
-var AdmZip = require('adm-zip');
+const AdmZip = require('adm-zip');
+const prompts = require('prompts');
 require('dotenv').config();
 moment.locale('fr');
 
