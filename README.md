@@ -2,7 +2,7 @@
 
 Petit programme permettant de télécharger un pack des toutes dernières mises à jours d'Atmosphere avec quelques homebrews en plus.
 
-## 🤔 Comment utiliser ce programme ?
+# 🤔 Comment utiliser ce programme ?
 
 L'utilisation de ce programme est très simple.
 
