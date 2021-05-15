@@ -5,8 +5,10 @@ const StreamZip = require('node-stream-zip');
 const cliProgress = require('cli-progress');
 const chalk = require('chalk');
 const {PythonShell} = require('python-shell');
+const moment = require('moment');
 var AdmZip = require('adm-zip');
 require('dotenv').config();
+moment.locale('fr');
 
 const output_folder = './temp';
 const final_folder = './SD';
@@ -36,10 +38,13 @@ if(!fs.existsSync(final_folder)) {
 
         if (release.status === 404)
             return console.log(`https://api.github.com/repos/${link}/releases retourne une erreur 404.`);
-        else if (release.headers['x-ratelimit-limit'] === 60) 
-            return console.log('Bad Key');
-        else if (release.headers['x-ratelimit-remaining'] === 0) 
-            return console.log('Rate Limit');
+        else if (release.headers.get('x-ratelimit-limit') == 60) {
+            console.log(chalk.red('La clé d\'accès API GitHub est erronnée, veuillez en spécifier une de correcte dans le fichier .env.'));
+            process.exit();
+        } else if (release.headers.get('x-ratelimit-remaining') == 0) {
+            console.log(chalk.red(`Vous avez dépassé le nombre de requêtes maximum par heure, vous devez attendre ${chalk.bold(moment(Number(release.headers.get('x-ratelimit-reset')) * 1000).format('ddd LL, LTS'))} avant de pour réutiliser le programme.`));
+            process.exit();
+        };
 
         release = await release.json();
         release = release[0];
