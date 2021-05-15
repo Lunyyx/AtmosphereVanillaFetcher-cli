@@ -28,4 +28,12 @@ Vous avez désormais votre token, vous pouvez passer à la suite !
 
 ## 📚 Paramétrer et utiliser le programme
 
-A REMPLIR
+1. Créez un fichier **.env** à la racine du programme, avec le contenu suivant:
+```
+GITHUB_TOKEN=votre_token_ici
+```
+(Remplacez évidemment **votre_token_ici* par votre token GitHub.)
+
+2. Ouvrez le programme, si tout se passe bien, le programme devrait télécharger les fichiers, les organiser et les compresser dans un fichier nommé **pack.zip** qui sera présent à la racine du programme.
+
+En cas de problème, signalez-le ici: https://github.com/Lunyyx/AtmosphereVanillaFetcher/issues
