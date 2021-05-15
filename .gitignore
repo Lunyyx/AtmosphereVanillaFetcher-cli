@@ -2,5 +2,7 @@ node_modules/
 SD/
 temp/
 
+.env
 package-lock.json
 pack.zip
+.env
