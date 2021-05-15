@@ -36,4 +36,4 @@ GITHUB_TOKEN=votre_token_ici
 
 2. Ouvrez le programme, si tout se passe bien, le programme devrait télécharger les fichiers, les organiser et les compresser dans un fichier nommé **pack.zip** qui sera présent à la racine du programme.
 
-En cas de problème, signalez-le ici: https://github.com/Lunyyx/AtmosphereVanillaFetcher/issues
+Si vous avez le moindre problème, merci de le signaler ici: https://github.com/Lunyyx/AtmosphereVanillaFetcher/issues
