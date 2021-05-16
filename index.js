@@ -328,7 +328,7 @@ async function checkKey(key) {
             
             for (let file of files) {
                 const { name, version } = file;
-                console.log(colors.default(`${name} • (${version})`));
+                console.log(colors.default(`${name} (${version})`));
             };
 
             if(buffer) {
