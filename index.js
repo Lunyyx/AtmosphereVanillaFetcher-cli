@@ -249,7 +249,6 @@ if(!fs.existsSync(final_folder)) {
                                                         let zip = new AdmZip();
 
                                                         zip.addLocalFolder('./SD/')
-                                                        zip.writeZip('./pack.zip');
                                                         zip.toBuffer((buffer, err) => {
                                                             console.log('pack.zip en cours de création...')
                                                             if(err) reject(err)
@@ -264,6 +263,7 @@ if(!fs.existsSync(final_folder)) {
                                                                 console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
                                                             }
                                                         });
+                                                        zip.writeZip('./pack.zip');
                                                     }).catch((error) => {
                                                         console.log(chalk.red(error));
                                                     });
