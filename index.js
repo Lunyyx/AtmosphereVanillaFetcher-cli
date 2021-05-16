@@ -4,7 +4,7 @@ const Downloader = require('nodejs-file-downloader');
 const StreamZip = require('node-stream-zip');
 const cliProgress = require('cli-progress');
 const chalk = require('chalk');
-const {PythonShell} = require('python-shell');
+const { PythonShell } = require('python-shell');
 const moment = require('moment');
 const AdmZip = require('adm-zip');
 require('dotenv').config();
@@ -18,105 +18,69 @@ console.log('Bienvenue sur AtmosphereVanillaFetcher.\nDéveloppé par Lunyx, ave
 if(!fs.existsSync(output_folder)) {
     fs.mkdir(output_folder, function () {
         console.log('Dossier "temp" créé !');
-    })
-}
+    });
+};
 
 if(!fs.existsSync(final_folder)) {
     fs.mkdir(final_folder, function () {
         console.log('Dossier "SD" créé !');
-    })
-}
+    });
+};
 
 (async () => {
-    async function getRelease(link, desiredNumbers, desiredNames) {
-        let nameIndex = 0;
-        let release = await fetch(`https://api.github.com/repos/${link}/releases`, {
-            headers: {
-                Authorization: `token ${process.env.GITHUB_TOKEN}`
-            }
-        });
+    async function getRelease(link, desiredFiles) {
+        try {
+            let release = await fetch(`https://api.github.com/repos/${link}/releases`, { headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` } });
 
-        if (release.status === 404)
-            return console.log(`https://api.github.com/repos/${link}/releases retourne une erreur 404.`);
-        else if (release.headers.get('x-ratelimit-limit') == 60) {
-            console.log(chalk.red('La clé d\'accès API GitHub est erronnée, veuillez en spécifier une de correcte dans le fichier .env.'));
-            process.exit();
-        } else if (release.headers.get('x-ratelimit-remaining') == 0) {
-            console.log(chalk.red(`Vous avez dépassé le nombre de requêtes maximum par heure, vous devez attendre ${chalk.bold(moment(Number(release.headers.get('x-ratelimit-reset')) * 1000).format('ddd LL, LTS'))} avant de pouvoir réutiliser le programme.`));
-            process.exit();
-        };
-
-        release = await release.json();
-        release = release[0];
-
-        let repoName = release.url.replace('https://api.github.com/repos', '').replace(`/releases/${release.id}`, '').split('/')[2];
-
-        const { assets } = release;
-        if (assets.length === 0)
-            return console.log(`Il n'y a pas de fichiers sur la dernière version de ${repoName}.`);
-
-        const desiredFiles = [];
-        
-        for (let number of desiredNumbers) {
-            number--;
-            if (assets[number]) {
-                desiredFiles.push({
-                    name: desiredNames[nameIndex],
-                    url: assets[number].browser_download_url,
-                    version: release.tag_name
-                });
+            if (release.status === 404)
+                return console.log(`https://api.github.com/repos/${link}/releases retourne une erreur 404.`);
+            else if (release.headers.get('x-ratelimit-limit') == 60) {
+                console.log(chalk.red('La clé d\'accès API GitHub est erronnée, veuillez en spécifier une de correcte dans le fichier .env.'));
+                process.exit();
+            } else if (release.headers.get('x-ratelimit-remaining') == 0) {
+                console.log(chalk.red(`Vous avez dépassé le nombre de requêtes maximum par heure, vous devez attendre ${chalk.bold(moment(Number(release.headers.get('x-ratelimit-reset')) * 1000).format('ddd LL, LTS'))} avant de pouvoir réutiliser le programme.`));
+                process.exit();
             };
-            nameIndex++;
-        };
 
-        return desiredFiles;
+            release = await release.json();
+            release = release[0];
+
+            let repoName = release.url.replace('https://api.github.com/repos', '').replace(`/releases/${release.id}`, '').split('/')[2];
+
+            const { assets } = release;
+            if (assets.length === 0)
+                return console.log(`Il n'y a pas de fichiers sur la dernière version de ${repoName}.`);
+
+            const desiredFilesArray = [];
+
+            for (let asset of assets) {
+                const { name, browser_download_url } = asset;
+                for (let file of desiredFiles) {
+                    const { exp, filename } = file;
+                    if (exp.test(name) && name.replace(name.match(exp)[0], '') == '') {
+                        desiredFilesArray.push({ name: filename, url: browser_download_url, version: release.tag_name });
+                        break;
+                    };
+                };
+            };
+
+            return desiredFilesArray;
+        } catch (error) {
+            console.log(chalk.red(error));
+        };
     };
-    
-    const desiredReleases = [{ link: 'CTCaer/hekate', desiredNumbers: [1], desiredNames: ['hekate.zip'] }, { link: 'Atmosphere-NX/Atmosphere', desiredNumbers: [2, 3], desiredNames: ['atmosphere.zip', 'fusee_primary.bin'] }, { link: 'ITotalJustice/patches', desiredNumbers: [1], desiredNames: ['fusee.zip'] }, { link: 'Huntereb/Awoo-Installer', desiredNumbers: [1], desiredNames: ['awoo_installer.zip'] }, { link: 'WerWolv/EdiZon', desiredNumbers: [1], desiredNames: ['EdiZon.nro'] }, { link: 'XorTroll/Goldleaf', desiredNumbers: [1], desiredNames: ['Goldleaf.nro'] }, { link: 'SciresM/Checkpoint', desiredNumbers: [1], desiredNames: ['Checkpoint.nro'] }, { link: 'J-D-K/JKSV', desiredNumbers: [1], desiredNames: ['JKSV.nro'] }, { link: 'mtheall/ftpd', desiredNumbers: [13], desiredNames: ['ftpd.nro'] }, { link: 'liuervehc/nxmtp', desiredNumbers: [1], desiredNames: ['nxmtp.nro'] }, { link: 'mrdude2478/TinWoo', desiredNumbers: [1], desiredNames: ['TinWoo-Installer.zip'] }, { link: 'meganukebmp/Switch_90DNS_tester', desiredNumbers: [1], desiredNames: ['Switch_90DNS_tester.nro'] }];
-    
+
+    const desiredReleases = [{ link: 'CTCaer/hekate', desiredFiles: [{ exp: /^hekate_ctcaer_[0-9]*\.[0-9]+[0-9]*\.[0-9]+_[a-zA-Z]+_[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'hekate.zip' }] }, { link: 'Atmosphere-NX/Atmosphere', desiredFiles: [{ exp: /^atmosphere-(\d(\.\d)+)(\d(\.\d)+)-[a-zA-Z]+-[0-9]+a[0-9]+d-WITHOUT_MESOSPHERE\+hbl-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\+hbmenu-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'atmosphere.zip' }, { exp: /^fusee-primary\.bin$/, filename: 'fusee_primary.bin' }] }, { link: 'ITotalJustice/patches', desiredFiles: [{ exp: /^fusee\.zip$/, filename: 'fusee.zip' }] }, { link: 'Huntereb/Awoo-Installer', desiredFiles: [{ exp: /^Awoo-Installer\.zip$/, filename: 'awoo_installer.zip' }] }, { link: 'WerWolv/EdiZon', desiredFiles: [{ exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro' }] }, { link: 'XorTroll/Goldleaf', desiredFiles: [{ exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro' }] }, { link: 'SciresM/Checkpoint', desiredFiles: [{ exp: /^Checkpoint\.nro$/, filename: 'Checkpoint.nro' }] }, { link: 'J-D-K/JKSV', desiredFiles: [{ exp: /^JKSV\.nro$/, filename: 'JKSV.nro' }] }, { link: 'mtheall/ftpd', desiredFiles: [{ exp: /^ftpd\.nro$/, filename: 'ftpd.nro' }] }, { link: 'liuervehc/nxmtp', desiredFiles: [{ exp: /^nxmtp\.nro$/, filename: 'nxmtp.nro' }] }, { link: 'mrdude2478/TinWoo', desiredFiles: [{ exp: /^TinWoo-Installer\.zip$/, filename: 'TinWoo-Installer.zip' }] }, { link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro' }] }];
+
     let files = [];
 
     for (let desiredRelease of desiredReleases) {
-        const { link, desiredNumbers, desiredNames } = desiredRelease;
-        let release = await getRelease(link, desiredNumbers, desiredNames);
+        const { link, desiredFiles } = desiredRelease;
+        let release = await getRelease(link, desiredFiles);
         files = files.concat(release);
     };
 
-    files.push({
-        name: 'sxgear.zip',
-        url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip',
-        version: 'v1.1'
-    });
-
-    files.push({
-        name: 'tinfoil.zip',
-        url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip',
-        version: 'v12.0'
-    });
-
-    files.push({
-        name: 'hekate_ipl.ini',
-        url: 'https://nobuyoshi.red/hekate_ipl.ini',
-        version: 'latest'
-    });
-
-    files.push({
-        name: 'exosphere.ini',
-        url: 'https://nobuyoshi.red/exosphere.ini',
-        version: 'latest'
-    });
-
-    files.push({
-        name: 'sysmmc.txt',
-        url: 'https://nobuyoshi.red/sysmmc.txt',
-        version: 'latest'
-    });
-
-    files.push({
-        name: 'emummc.txt',
-        url: 'https://nobuyoshi.red/emummc.txt',
-        version: 'latest'
-    });
+    files.push({ name: 'sxgear.zip', url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip', version: 'v1.1' }, { name: 'tinfoil.zip', url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip', version: 'v12.0' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest' });
 
     console.log('Téléchargement des différents fichiers nécessaires au pack:');
     const filesLength = files.length;
@@ -164,7 +128,6 @@ if(!fs.existsSync(final_folder)) {
 
     let temp_files = fs.readdirSync(output_folder);
     let zip_temp_files = temp_files.filter(f => f.endsWith('.zip'));
-    let other_files = temp_files.filter(f => !f.endsWith('.zip'));
     
     for (let zip of zip_temp_files) {
         const zip_file = new StreamZip.async({ file: `./temp/${zip}` });
@@ -177,11 +140,11 @@ if(!fs.existsSync(final_folder)) {
         };
 
         const count = await zip_file.extract(null, `./temp/${zip.replace('.zip', '')}`);
-        
         console.log(`${chalk.bold(count)} fichier(s) extrait(s) de ${chalk.bold(zip)}`);
     };
 
-    console.log('\nGénération du boot.dat modifié...')
+    console.log('\nGénération du boot.dat modifié...');
+
     fs.rename('./temp/hekate/hekate_ctcaer_5.5.6.bin', './temp/hekate/hekate_ctcaer.bin', () => {
         console.log('Fichier hekate renommé en "hekate_ctcaer.bin".');
     })
@@ -191,116 +154,71 @@ if(!fs.existsSync(final_folder)) {
         console.log(chalk.bold.green('\nFichier "boot.dat" généré avec succès dans ./SD/ !'));
     })
 
-    fs.copy('./temp/atmosphere/', './SD/').then(() => {
+    try {
+        await fs.copy('./temp/atmosphere/', './SD/');
         console.log(chalk.green(`\nContenu du dossier ${chalk.bold("./temp/atmosphere/")} copié dans ${chalk.bold("./SD/")}.`));
+        await fs.copy('./temp/hekate/bootloader/', './SD/bootloader/');
+        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/hekate/bootloader/")} copié dans ${chalk.bold("./SD/bootloader/")}.`));
+        await fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/');
+        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/fusee/atmosphere/")} copié dans ${chalk.bold("./SD/atmosphere/")}.`));
+        await fs.copy('./temp/awoo_installer/switch/', './SD/switch/');
+        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/awoo_installer/switch/")} copié dans ${chalk.bold("./SD/switch/")}.`));
+        await fs.copy('./temp/fusee_primary.bin', './SD/bootloader/payloads/fusee-primary.bin');
+        console.log(chalk.green(`Fichier ${chalk.bold("./temp/fusee_primary.bin")} copié dans ${chalk.bold("./SD/bootloader/payloads/fusee-primary.bin")}.`));
+        await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/payload.bin');
+        console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate/hekate_ctcaer.bin")} copié dans ${chalk.bold("./SD/payload.bin")}.`));
+        await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/atmosphere/reboot_payload.bin');
+        console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate/hekate_ctcaer.bin")} copié dans ${chalk.bold("./SD/atmosphere/reboot_payload.bin")}.`));
+        await fs.copy('./temp/hekate_ipl.ini', './SD/bootloader/hekate_ipl.ini');
+        console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate_ipl.ini")} copié dans ${chalk.bold("./SD/bootloader/hekate_ipl.ini")}.`));
+        await fs.copy('./temp/exosphere.ini', './SD/exosphere.ini');
+        console.log(chalk.green(`Fichier ${chalk.bold("./temp/exosphere.ini")} copié dans ${chalk.bold("./SD/exosphere.ini")}.`));
+
+        if (!fs.existsSync('./SD/atmosphere/hosts'))
+            await fs.mkdir('./SD/atmosphere/hosts');
+
+        console.log(chalk.green(`Dossier ${chalk.bold("./SD/atmosphere/hosts")} créé.`));
+
+        await fs.copy('./temp/sysmmc.txt', './SD/atmosphere/hosts/sysmmc.txt');
+        console.log(chalk.green(`Fichier ${chalk.bold("./temp/sysmmc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/sysmmc.txt")}.`));
+        await fs.copy('./temp/emummc.txt', './SD/atmosphere/hosts/emummc.txt');
+        console.log(chalk.green(`Fichier ${chalk.bold("./temp/emummc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/emummc.txt")}.`));
+        await fs.copy('./temp/TinWoo-Installer/', './SD/');
+        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/TinWoo-Installer/")} copié dans ${chalk.bold("./SD/")}.`));
+        await fs.copy('./temp/tinfoil/', './SD/');
+        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/tinfoil/")} copié dans ${chalk.bold("./SD/")}.`));
+
+        let homebrews = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('nro')) });
         
-        fs.copy('./temp/hekate/bootloader/', './SD/bootloader/').then(() => {
-            console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/hekate/bootloader/")} copié dans ${chalk.bold("./SD/bootloader/")}.`));
+        for (let homebrew of homebrews) {
+            await fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`);
+            console.log(chalk.green(`Fichier ${chalk.bold(`./temp/${homebrew}`)} copié dans ${chalk.bold(`./SD/switch/${homebrew}`)}.`));
+        };
+
+        let zip = new AdmZip();
+
+        zip.addLocalFolder('./SD/');
+        zip.toBuffer(async (buffer, err) => {
+            console.log('pack.zip en cours de création...')
+            if (err)
+                throw err;
+
+            console.log('\nContenu du pack:')
             
-            fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/').then(() => {
-                console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/fusee/atmosphere/")} copié dans ${chalk.bold("./SD/atmosphere/")}.`));
-                
-                fs.copy('./temp/awoo_installer/switch/', './SD/switch/').then(() => {
-                    console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/awoo_installer/switch/")} copié dans ${chalk.bold("./SD/switch/")}.`));
-                    
-                    fs.copy('./temp/fusee_primary.bin', './SD/bootloader/payloads/fusee-primary.bin').then(() => {
-                        console.log(chalk.green(`Fichier ${chalk.bold("./temp/fusee_primary.bin")} copié dans ${chalk.bold("./SD/bootloader/payloads/fusee-primary.bin")}.`));
-                        
-                        fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/payload.bin').then(() => {
-                            console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate/hekate_ctcaer.bin")} copié dans ${chalk.bold("./SD/payload.bin")}.`));
-                            
-                            fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/atmosphere/reboot_payload.bin').then(() => {
-                                console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate/hekate_ctcaer.bin")} copié dans ${chalk.bold("./SD/atmosphere/reboot_payload.bin")}.`));
-                                
-                                fs.copy('./temp/hekate_ipl.ini', './SD/bootloader/hekate_ipl.ini').then(() => {
-                                    console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate_ipl.ini")} copié dans ${chalk.bold("./SD/bootloader/hekate_ipl.ini")}.`));
-                                    
-                                    fs.copy('./temp/exosphere.ini', './SD/exosphere.ini').then(() => {
-                                        console.log(chalk.green(`Fichier ${chalk.bold("./temp/exosphere.ini")} copié dans ${chalk.bold("./SD/exosphere.ini")}.`));
-                                        
-                                        if(!fs.existsSync('./SD/atmosphere/hosts')) {
-                                            fs.mkdirSync('./SD/atmosphere/hosts')
-                                        }
+            for (let file of files) {
+                const { name, version } = file;
+                console.log(`${name} (${version})`);
+            };
 
-                                        console.log(chalk.green(`Dossier ${chalk.bold("./SD/atmosphere/hosts")} créé.`));
+            if(buffer) {
+                await fs.emptyDir('./temp/', { recursive: true })
+                console.log('Contenu du dossier "./temp" supprimé.');
+                console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
+            };
 
-                                        fs.copy('./temp/sysmmc.txt', './SD/atmosphere/hosts/sysmmc.txt').then(() => {
-                                            console.log(chalk.green(`Fichier ${chalk.bold("./temp/sysmmc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/sysmmc.txt")}.`));
-                                            
-                                            fs.copy('./temp/emummc.txt', './SD/atmosphere/hosts/emummc.txt').then(() => {
-                                                console.log(chalk.green(`Fichier ${chalk.bold("./temp/emummc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/emummc.txt")}.`));
-                                            
-                                                fs.copy('./temp/TinWoo-Installer/', './SD/').then(() => {
-                                                    console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/TinWoo-Installer/")} copié dans ${chalk.bold("./SD/")}.`));
-
-                                                    fs.copy('./temp/tinfoil/', './SD/').then(() => {
-                                                        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/tinfoil/")} copié dans ${chalk.bold("./SD/")}.`));
-
-                                                        let homebrews = fs.readdirSync(output_folder).filter(f => f.endsWith('nro'));
-
-                                                        for (let homebrew of homebrews) {
-                                                            fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`).then(() => {
-                                                                console.log(chalk.green(`Fichier ${chalk.bold(`./temp/${homebrew}`)} copié dans ${chalk.bold(`./SD/switch/${homebrew}`)}.`));
-                                                            }).catch((error) => {
-                                                                console.log(chalk.red(error));
-                                                            });
-                                                        }
-                                                                        
-                                                        let zip = new AdmZip();
-
-                                                        zip.addLocalFolder('./SD/')
-                                                        zip.writeZip('./pack.zip');
-                                                        zip.toBuffer((buffer, err) => {
-                                                            console.log('pack.zip en cours de création...')
-                                                            if(err) reject(err)
-                                                            console.log('\nContenu du pack:')
-                                                            for (let file of files) {
-                                                                const { name, version } = file;
-                                                                console.log(`${name} (${version})`);
-                                                            }
-                                                            if(buffer) {
-                                                                fs.emptyDirSync('./temp/', { recursive: true })
-                                                                console.log('Contenu du dossier "./temp" supprimé.');
-                                                                console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
-                                                            }
-                                                        });
-                                                    }).catch((error) => {
-                                                        console.log(chalk.red(error));
-                                                    });
-                                                }).catch((error) => {
-                                                    console.log(chalk.red(error));
-                                                });
-                                            }).catch((error) => {
-                                                console.log(chalk.red(error));
-                                            });
-                                        }).catch((error) => {
-                                            console.log(chalk.red(error));
-                                        });
-                                    }).catch((error) => {
-                                        console.log(chalk.red(error));
-                                    });
-                                }).catch((error) => {
-                                    console.log(chalk.red(error));
-                                });
-                            }).catch((error) => {
-                                console.log(chalk.red(error));
-                            });
-                        }).catch((error) => {
-                            console.log(chalk.red(error));
-                        });
-                    }).catch((error) => {
-                        console.log(chalk.red(error));
-                    });
-                }).catch((error) => {
-                    console.log(chalk.red(error));
-                });
-            }).catch((error) => {
-                console.log(chalk.red(error));
-            });
-        }).catch((error) => {
-            console.log(chalk.red(error));
         });
-    }).catch((error) => {
+        zip.writeZip('./pack.zip');
+    } catch (error) {
         console.log(chalk.red(error));
-    });
+    };
 })();
