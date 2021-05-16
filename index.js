@@ -11,59 +11,111 @@ const qoa = require('qoa');
 require('dotenv').config();
 moment.locale('fr');
 
-(async () => {
-    const output_folder = './temp';
-    const final_folder = './SD';
-    console.log('Bienvenue sur AtmosphereVanillaFetcher.\nDéveloppé par Lunyx, avec la grande aide de Murasaki.\nRemerciements:\nZoria pour le script original.\nMurasaki pour l\'immense aide qu\'il a fourni pour ce projet.\n');
+const colors = {
+    'default': (text) => { return chalk.hex('#2C3579')(text); },
+    'success': (text) => { return chalk.hex('#076A00')(text); },
+    'warning': (text) => { return chalk.hex('#FF7400')(text) },
+    'error':(text) => { return chalk.hex('#BC0101')(text); },
+};
 
-    if(!fs.existsSync(output_folder)) {
-        await fs.mkdir(output_folder);
-        console.log('Dossier "temp" créé !');
-    };
-    
-    if(!fs.existsSync(final_folder)) {
-        await fs.mkdir(final_folder);
-        console.log('Dossier "SD" créé !');
-    };
+async function checkKey(key) {
+    try {
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        const test = await fetch('https://api.github.com/', { headers: { Authorization : `token ${key}` } });
+        if (test.headers.get('x-ratelimit-limit') == 60)
+            return false;
+        return true;
+    } catch(e) {
+        console.log(colors.error(`[CheckKey] Une erreur est survenue: ${e}`));
+        process.exit();
+    }
+};
+
+(async () => {
+    console.log(colors.default(`
+  ___  _                             _          ✢         _   _             _ _ _      ______   _       _               ✢
+ / _ \\| |             ✢             | |                  | | | |           (_) | |     |  ___| | |     | |              
+/ /_\\ \\ |_ _ __ ___   ___  ___ _ __ | |__   ___ _ __ ___ | | | | __ _ _ __  _| | | __ _| |_ ___| |_ ___| |__   ___ _ __ 
+|  _  | __| '_ \` _ \\ / _ \\/ __| '_ \\| '_ \\ / _ \\ '__/ _ \\| | | |/ _\` | '_ \\| | | |/ _\` |  _/ _ \\ __/ __| '_ \\ / _ \\ '__|
+| | | | |_| | | | | | (_) \\__ \\ |_) | | | |  __/ | |  __/\\ \\_/ / (_| | | | | | | | (_| | ||  __/ || (__| | | |  __/ |   
+\\_| |_/\\__|_| |_| |_|\\___/|___/ .__/|_| |_|\\___|_|  \\___| \\___/ \\__,_|_| |_|_|_|_|\\__,_\\_| \\___|\\__\\___|_| |_|\\___|_|   
+                              | |                                                                                       
+                              |_|      ✢                     ✢                        v1.0.0 By Lunyx, Zoria & Murasaki.    ✢                                                               
+
+`));
 
     let GITHUB_TOKEN = '';
-
+    
     if (process.env.GITHUB_TOKEN)
         GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     else if (fs.existsSync('./key.txt'))
         GITHUB_TOKEN = await fs.readFile('./key.txt');
     if (GITHUB_TOKEN == '') {
+        console.log(colors.warning('Aucune clé d\'accès à l\'API de GitHub n\'a été trouvée.'));    
         do {
-            GITHUB_TOKEN = await qoa.input({ query: 'Veuillez indiquer votre clé d\'accès API GitHub:', handle: 'key' }).then(a => { return a.key; });
+            GITHUB_TOKEN = await qoa.input({ query: colors.warning('Veuillez indiquer votre clé d\'accès API GitHub:'), handle: 'key' }).then(a => { return a.key; });
+            if (GITHUB_TOKEN == '') {
+                console.log(colors.error('Vous n\'avez indiqué aucune clé.'));
+                continue;
+            };
+            console.log(colors.warning('Vérification de votre clé en cours...'));
+            if (await checkKey(GITHUB_TOKEN)) {
+                console.log(colors.success('La clé indiquée est valide, elle va être sauvegardée dans le fichier .env.'));
+                await fs.writeFile('./.env', `GITHUB_TOKEN=${GITHUB_TOKEN}`);
+                console.log(colors.success('La clé a bien été sauvegardée dans le fichier .env.'));
+            } else {
+                console.log(colors.error('La clé indiquée est invalide, veuillez en spécifier une de correcte.'));
+                GITHUB_TOKEN = '';
+            };
         } while(GITHUB_TOKEN == '');
-        await fs.writeFile('./.env', `GITHUB_TOKEN=${GITHUB_TOKEN}`);
     };
-        
+
+    const output_folder = './temp';
+    const final_folder = './SD';
+    let hekate_version = '';
+
+    if(!fs.existsSync(output_folder)) {
+        await fs.mkdir(output_folder);
+        console.log(colors.warning('Dossier temporaire (temp) créé.'));
+    };
+    
+    if(!fs.existsSync(final_folder)) {
+        await fs.mkdir(final_folder);
+        console.log(colors.warning('Dossier contenant ce qui va être utilisé pour créer le pack (SD) créé.'));
+    };
+
     async function getRelease(link, desiredFiles) {
         try {
             let release = await fetch(`https://api.github.com/repos/${link}/releases`, { headers: { Authorization: `token ${GITHUB_TOKEN}` } });
-
-            if (release.status === 404)
-                return console.log(`https://api.github.com/repos/${link}/releases retourne une erreur 404.`);
-            else if (release.headers.get('x-ratelimit-limit') == 60) {
-                console.log(chalk.red('La clé d\'accès API GitHub est erronnée, veuillez en spécifier une de correcte dans le fichier .env.'));
+    
+            if (release.status === 404) {
+                console.log(colors.error(`https://api.github.com/repos/${link}/releases retourne une erreur 404.`));
+                process.exit();
+            } else if (release.headers.get('x-ratelimit-limit') == 60) {
+                console.log(colors.error('La clé d\'accès à l\'API de GitHub est erronnée, vous allez devoir recommencer une configuration.'));
+                if (fs.existsSync('./.env'))
+                    await fs.unlink('./.env');
+                if (fs.existsSync('./key.txt'))
+                    await fs.unlink('./key.txt');
                 process.exit();
             } else if (release.headers.get('x-ratelimit-remaining') == 0) {
-                console.log(chalk.red(`Vous avez dépassé le nombre de requêtes maximum par heure, vous devez attendre ${chalk.bold(moment(Number(release.headers.get('x-ratelimit-reset')) * 1000).format('ddd LL, LTS'))} avant de pouvoir réutiliser le programme.`));
+                console.log(colors.error(`Vous avez dépassé le nombre de requêtes maximum par heure, vous devez attendre ${colors.default(moment(Number(release.headers.get('x-ratelimit-reset')) * 1000).format('ddd LL, LTS'))} avant de pouvoir réutiliser le programme.`));
                 process.exit();
             };
-
+    
             release = await release.json();
             release = release[0];
-
+    
             let repoName = release.url.replace('https://api.github.com/repos', '').replace(`/releases/${release.id}`, '').split('/')[2];
-
+    
             const { assets } = release;
-            if (assets.length === 0)
-                return console.log(`Il n'y a pas de fichiers sur la dernière version de ${repoName}.`);
-
+            if (assets.length === 0) {
+                console.log(colors.error(`Il n'y a pas de fichiers sur la dernière version de ${repoName}.`));
+                process.exit();
+            };
+    
             const desiredFilesArray = [];
-
+    
             for (let asset of assets) {
                 const { name, browser_download_url } = asset;
                 for (let file of desiredFiles) {
@@ -74,10 +126,11 @@ moment.locale('fr');
                     };
                 };
             };
-
+    
             return desiredFilesArray;
-        } catch (error) {
-            console.log(chalk.red(error));
+        } catch (e) {
+            console.log(colors.error(`[GetRelease] Une erreur est survenue: ${e}`));
+            process.exit();
         };
     };
 
@@ -93,52 +146,41 @@ moment.locale('fr');
 
     files.push({ name: 'sxgear.zip', url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip', version: 'v1.1' }, { name: 'tinfoil.zip', url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip', version: 'v12.0' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest' });
 
-    console.log('Téléchargement des différents fichiers nécessaires au pack:');
-    const filesLength = files.length;
-    let downloadedFiles = 0;
-    
+    console.log(colors.warning('Les fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
+
     for (let file of files) {
         const { name, url, version } = file;
         let bar;
+
+        if (name == 'hekate.zip')
+            hekate_version = version.replace('v', '');
         
-        let downloader = new Downloader({
-            url: url,
-            directory: output_folder,
-            filename: name,
-            cloneFiles: false,
-            onBeforeSave:()=>{
-                console.log(`\nDébut du téléchargement de: ${name} (${version})`);
+        let downloader = new Downloader({ url: url, directory: output_folder, filename: name, cloneFiles: false,
+            onBeforeSave: () => {
+                console.log(colors.warning(`\nLe fichier ${name} (${version}) est en cours de téléchargement...`));
                 bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
                 bar.start(100, 0);
             },   
             onProgress: async function(percentage){
                 await bar.update(Math.round(percentage));
-            },        
+            }        
         });
         
         try {
             await downloader.download();
             bar.stop();
-            console.log(chalk.green(`Le fichier ${chalk.bold(name)} a été téléchargé avec succès.`));
-            downloadedFiles++;
-        } catch (error) {
+            console.log(colors.success(`Le fichier ${colors.default(name)} a été téléchargé avec succès.`));
+        } catch (e) {
             if (bar)
                 bar.stop();
-            console.log(chalk.red(`Le fichier ${chalk.bold(name)} n'a pas pu être téléchargé:\n${error}`));
+            console.log(colors.error(`Le fichier ${colors.default(name)} n'a pas pu être téléchargé. ${e}`));
+            process.exit();
         };
     };
 
-    if (downloadedFiles === 0)
-        console.log(chalk.bold.red(`\nAucun fichier n\'a été téléchargé.`));
-    else if (downloadedFiles === filesLength)
-        console.log(chalk.bold.green(`\nTous les fichiers ont été téléchargés.`));
-    else
-        console.log(chalk.bold.keyword('orange')(`\n${downloadedFiles}/${filesLength} fichiers ont été téléchargés.`));
-
-    console.log('\nPréparation du dossier "SD"...');
-
+    console.log(colors.success('\nTous les fichiers nécessaires ont été téléchargés.'), colors.warning('\nPréparation du dossier SD...\n'));
     let zip_temp_files = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('.zip')) });
-    
+
     for (let zip of zip_temp_files) {
         const zip_file = new StreamZip.async({ file: `./temp/${zip}` });
 
@@ -150,85 +192,87 @@ moment.locale('fr');
         };
 
         const count = await zip_file.extract(null, `./temp/${zip.replace('.zip', '')}`);
-        console.log(`${chalk.bold(count)} fichier(s) extrait(s) de ${chalk.bold(zip)}`);
+        console.log(colors.success(`Le fichier ${colors.default(zip)} a été extrait avec succès. (${count})`));
     };
 
-    console.log('\nGénération du boot.dat modifié...');
+    console.log(colors.warning('\nCréation du fichier boot.dat contenant hekate...'));
 
-    fs.rename('./temp/hekate/hekate_ctcaer_5.5.6.bin', './temp/hekate/hekate_ctcaer.bin', () => {
-        console.log('Fichier hekate renommé en "hekate_ctcaer.bin".');
+    fs.rename(`./temp/hekate/hekate_ctcaer_${hekate_version}.bin`, './temp/hekate/hekate_ctcaer.bin', () => {
+        console.log(colors.warning(`Fichier ${colors.default(`hekate_ctcaer_${hekate_version}.bin`)} renommé en ${colors.default('hekate_ctcaer.bin')}.`));
     });
 
-    PythonShell.run('./python/tx_custom_boot.py', null, function (err) {
-        if (err) throw chalk.red(err);
-        console.log(chalk.bold.green('\nFichier "boot.dat" généré avec succès dans ./SD/ !'));
-    })
+    PythonShell.run('./python/tx_custom_boot.py', null, function (e) {
+        if (e) {
+            console.log(colors.error(`[Boot.dat] Une erreur est survenue: ${e}`));
+        };
+        console.log(colors.success(`Le fichier ${colors.default('boot.dat')} a été correctement créé.`));
+    });
 
     try {
         await fs.copy('./temp/atmosphere/', './SD/');
-        console.log(chalk.green(`\nContenu du dossier ${chalk.bold("./temp/atmosphere/")} copié dans ${chalk.bold("./SD/")}.`));
+        console.log(colors.success(`\nLe contenu du dossier ${colors.default('temp/atmosphere')} a été copié vers le dossier ${colors.default('SD')}.`));
         await fs.copy('./temp/hekate/bootloader/', './SD/bootloader/');
-        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/hekate/bootloader/")} copié dans ${chalk.bold("./SD/bootloader/")}.`));
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/hekate/bootloader')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/');
-        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/fusee/atmosphere/")} copié dans ${chalk.bold("./SD/atmosphere/")}.`));
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/fusee/atmosphere')} a été copié vers le dossier ${colors.default('SD/atmosphere')}.`));
         await fs.copy('./temp/awoo_installer/switch/', './SD/switch/');
-        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/awoo_installer/switch/")} copié dans ${chalk.bold("./SD/switch/")}.`));
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/awoo_installer/switch')} a été copié vers le dossier ${colors.default('SD/switch')}.`));
         await fs.copy('./temp/fusee_primary.bin', './SD/bootloader/payloads/fusee-primary.bin');
-        console.log(chalk.green(`Fichier ${chalk.bold("./temp/fusee_primary.bin")} copié dans ${chalk.bold("./SD/bootloader/payloads/fusee-primary.bin")}.`));
+        console.log(colors.success(`Le fichier ${colors.default('temp/fusee_primary.bin')} a été copié vers le dossier ${colors.default('SD/bootloader/payloads')}`));
         await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/payload.bin');
-        console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate/hekate_ctcaer.bin")} copié dans ${chalk.bold("./SD/payload.bin")}.`));
+        console.log(colors.success(`Le fichier ${colors.default('temp/hekate/hekate_ctcaer.bin')} a été copié vers le dossier ${colors.default('SD (payload.bin)')}.`));
         await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/atmosphere/reboot_payload.bin');
-        console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate/hekate_ctcaer.bin")} copié dans ${chalk.bold("./SD/atmosphere/reboot_payload.bin")}.`));
+        console.log(colors.success(`Le fichier ${colors.default('temp/hekate/hekate_ctcaer.bin')} a été copié vers le dossier ${colors.default('SD/atmosphere (reboot_payload.bin)')}.`));
         await fs.copy('./temp/hekate_ipl.ini', './SD/bootloader/hekate_ipl.ini');
-        console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate_ipl.ini")} copié dans ${chalk.bold("./SD/bootloader/hekate_ipl.ini")}.`));
+        console.log(colors.success(`Le fichier ${colors.default('temp/hekate_ipl.ini')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/exosphere.ini', './SD/exosphere.ini');
-        console.log(chalk.green(`Fichier ${chalk.bold("./temp/exosphere.ini")} copié dans ${chalk.bold("./SD/exosphere.ini")}.`));
+        console.log(colors.success(`Le fichier ${colors.default('temp/exosphere.ini')} a été copié vers le dossier ${colors.default('SD')}.`));
 
-        if (!fs.existsSync('./SD/atmosphere/hosts'))
+        if (!fs.existsSync('./SD/atmosphere/hosts')) {
             await fs.mkdir('./SD/atmosphere/hosts');
-
-        console.log(chalk.green(`Dossier ${chalk.bold("./SD/atmosphere/hosts")} créé.`));
+            console.log(colors.success(`Le dossier ${colors.default('hosts')} a été créé dans ${colors.default('SD/atmosphere')}.`));
+        };
 
         await fs.copy('./temp/sysmmc.txt', './SD/atmosphere/hosts/sysmmc.txt');
-        console.log(chalk.green(`Fichier ${chalk.bold("./temp/sysmmc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/sysmmc.txt")}.`));
+        console.log(colors.success(`Le fichier ${colors.default('temp/sysmmc.txt')} a été copié vers le dossier ${colors.default('SD/atmosphere/hosts')}.`));
         await fs.copy('./temp/emummc.txt', './SD/atmosphere/hosts/emummc.txt');
-        console.log(chalk.green(`Fichier ${chalk.bold("./temp/emummc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/emummc.txt")}.`));
+        console.log(colors.success(`Le fichier ${colors.default('temp/emummc.txt')} a été copié vers le dossier ${colors.default('SD/atmosphere/hosts')}.`));
         await fs.copy('./temp/TinWoo-Installer/', './SD/');
-        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/TinWoo-Installer/")} copié dans ${chalk.bold("./SD/")}.`));
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/TinWoo-Installer')} a été copié vers le dossier ${colors.default('SD')}.`));
         await fs.copy('./temp/tinfoil/', './SD/');
-        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/tinfoil/")} copié dans ${chalk.bold("./SD/")}.`));
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/tinfoil')} a été copié vers le dossier ${colors.default('SD')}.`));
 
         let homebrews = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('nro')) });
         
         for (let homebrew of homebrews) {
             await fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`);
-            console.log(chalk.green(`Fichier ${chalk.bold(`./temp/${homebrew}`)} copié dans ${chalk.bold(`./SD/switch/${homebrew}`)}.`));
+            console.log(colors.success(`Le contenu du dossier ${colors.default(`temp/${homebrew}`)} a été copié vers le dossier ${colors.default('SD/switch')}.`));
         };
 
         let zip = new AdmZip();
 
         zip.addLocalFolder('./SD/');
         zip.toBuffer(async (buffer, err) => {
-            console.log('pack.zip en cours de création...')
+            console.log(colors.success('\nLe pack est en cours de création...\n'));
             if (err)
                 throw err;
 
-            console.log('\nContenu du pack:')
+            console.log(colors.success('Voici le contenu du pack:'))
             
             for (let file of files) {
                 const { name, version } = file;
-                console.log(`${name} (${version})`);
+                console.log(colors.default(`${name} • (${version})`));
             };
 
             if(buffer) {
-                await fs.emptyDir('./temp/', { recursive: true })
-                console.log('Contenu du dossier "./temp" supprimé.');
-                console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
+                await fs.emptyDir('./temp/', { recursive: true });
+                await fs.emptyDir('./SD/', { recursive: true });
+                console.log(colors.warning('\nLes contenus des dossiers temp et SD ont été supprimés.'), colors.success(`\nLe pack a été créé avec succès ${colors.default('(pack.zip)')}.`));
             };
 
         });
         zip.writeZip('./pack.zip');
-    } catch (error) {
-        console.log(chalk.red(error));
+    } catch (e) {
+        console.log(colors.error(`[Copie et création du pack.zip] Une erreur est survenue: ${e}`));
     };
 })();
