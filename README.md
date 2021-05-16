@@ -1,4 +1,6 @@
 ﻿# 🌌 AtmosphereVanillaFetcher
+ 
+<img src="https://i.imgur.com/xwhZrTP.png">
 
 Petit programme permettant de télécharger un pack des toutes dernières mises à jours d'Atmosphere avec quelques homebrews en plus.
 
@@ -53,7 +55,11 @@ Si tout se passe bien, le programme devrait télécharger les fichiers, les orga
 Si vous avez le moindre problème, merci de le signaler ici: https://github.com/Lunyyx/AtmosphereVanillaFetcher/issues<br>
 (Si des utilisateurs ou développeurs veulent clarifier mes propos, n'hésitez surtout pas)
 
+------------------------------
+
 # 🌌 AtmosphereVanillaFetcher
+
+<img src="https://i.imgur.com/xwhZrTP.png">
 
 Small program to download a pack of the latest Atmosphere updates with some extra homebrews.
 
