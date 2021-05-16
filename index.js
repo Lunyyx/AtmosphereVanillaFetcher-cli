@@ -7,6 +7,7 @@ const chalk = require('chalk');
 const { PythonShell } = require('python-shell');
 const moment = require('moment');
 const AdmZip = require('adm-zip');
+const qoa = require('qoa');
 require('dotenv').config();
 moment.locale('fr');
 
@@ -25,9 +26,22 @@ moment.locale('fr');
         console.log('Dossier "SD" créé !');
     };
 
+    let GITHUB_TOKEN = '';
+
+    if (process.env.GITHUB_TOKEN)
+        GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    else if (fs.existsSync('./key.txt'))
+        GITHUB_TOKEN = await fs.readFile('./key.txt');
+    if (GITHUB_TOKEN == '') {
+        do {
+            GITHUB_TOKEN = await qoa.input({ query: 'Veuillez indiquer votre clé d\'accès API GitHub:', handle: 'key' }).then(a => { return a.key; });
+        } while(GITHUB_TOKEN == '');
+        await fs.writeFile('./.env', `GITHUB_TOKEN=${GITHUB_TOKEN}`);
+    };
+        
     async function getRelease(link, desiredFiles) {
         try {
-            let release = await fetch(`https://api.github.com/repos/${link}/releases`, { headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` } });
+            let release = await fetch(`https://api.github.com/repos/${link}/releases`, { headers: { Authorization: `token ${GITHUB_TOKEN}` } });
 
             if (release.status === 404)
                 return console.log(`https://api.github.com/repos/${link}/releases retourne une erreur 404.`);

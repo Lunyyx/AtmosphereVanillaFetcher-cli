@@ -28,6 +28,7 @@
     "nodejs-file-downloader": "^4.5.3",
     "progress-stream": "^2.0.0",
     "python-shell": "^3.0.0",
+    "qoa": "^0.2.0",
     "xmlhttprequest": "^1.8.0"
   }
 }
