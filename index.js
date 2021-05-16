@@ -10,24 +10,21 @@ const AdmZip = require('adm-zip');
 require('dotenv').config();
 moment.locale('fr');
 
-const output_folder = './temp';
-const final_folder = './SD';
-
-console.log('Bienvenue sur AtmosphereVanillaFetcher.\nDéveloppé par Lunyx, avec la grande aide de Murasaki.\nRemerciements:\nZoria pour le script original.\nMurasaki pour l\'immense aide qu\'il a fourni pour ce projet.\n')
-
-if(!fs.existsSync(output_folder)) {
-    fs.mkdir(output_folder, function () {
-        console.log('Dossier "temp" créé !');
-    });
-};
-
-if(!fs.existsSync(final_folder)) {
-    fs.mkdir(final_folder, function () {
-        console.log('Dossier "SD" créé !');
-    });
-};
-
 (async () => {
+    const output_folder = './temp';
+    const final_folder = './SD';
+    console.log('Bienvenue sur AtmosphereVanillaFetcher.\nDéveloppé par Lunyx, avec la grande aide de Murasaki.\nRemerciements:\nZoria pour le script original.\nMurasaki pour l\'immense aide qu\'il a fourni pour ce projet.\n');
+
+    if(!fs.existsSync(output_folder)) {
+        await fs.mkdir(output_folder);
+        console.log('Dossier "temp" créé !');
+    };
+    
+    if(!fs.existsSync(final_folder)) {
+        await fs.mkdir(final_folder);
+        console.log('Dossier "SD" créé !');
+    };
+
     async function getRelease(link, desiredFiles) {
         try {
             let release = await fetch(`https://api.github.com/repos/${link}/releases`, { headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` } });
