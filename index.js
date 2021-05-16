@@ -42,7 +42,6 @@ async function checkKey(key) {
 \\_| |_/\\__|_| |_| |_|\\___/|___/ .__/|_| |_|\\___|_|  \\___| \\___/ \\__,_|_| |_|_|_|_|\\__,_\\_| \\___|\\__\\___|_| |_|\\___|_|   
                               | |                                                                                       
                               |_|      ✢                     ✢                        v1.0.0 By Lunyx, Zoria & Murasaki.    ✢                                                               
-
 `));
 
     let GITHUB_TOKEN = '';
@@ -127,6 +126,8 @@ async function checkKey(key) {
                     };
                 };
             };
+
+            console.log(colors.success(`${colors.default(`${repoName} (${release.tag_name})`)} récupéré.`));
     
             return desiredFilesArray;
         } catch (e) {
@@ -135,9 +136,74 @@ async function checkKey(key) {
         };
     };
 
-    const desiredReleases = [{ link: 'CTCaer/hekate', desiredFiles: [{ exp: /^hekate_ctcaer_[0-9]*\.[0-9]+[0-9]*\.[0-9]+_[a-zA-Z]+_[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'hekate.zip' }] }, { link: 'Atmosphere-NX/Atmosphere', desiredFiles: [{ exp: /^atmosphere-(\d(\.\d)+)(\d(\.\d)+)-[a-zA-Z]+-[0-9]+a[0-9]+d-WITHOUT_MESOSPHERE\+hbl-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\+hbmenu-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'atmosphere.zip' }, { exp: /^fusee-primary\.bin$/, filename: 'fusee_primary.bin' }] }, { link: 'ITotalJustice/patches', desiredFiles: [{ exp: /^fusee\.zip$/, filename: 'fusee.zip' }] }, { link: 'Huntereb/Awoo-Installer', desiredFiles: [{ exp: /^Awoo-Installer\.zip$/, filename: 'awoo_installer.zip' }] }, { link: 'WerWolv/EdiZon', desiredFiles: [{ exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro' }] }, { link: 'XorTroll/Goldleaf', desiredFiles: [{ exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro' }] }, { link: 'SciresM/Checkpoint', desiredFiles: [{ exp: /^Checkpoint\.nro$/, filename: 'Checkpoint.nro' }] }, { link: 'J-D-K/JKSV', desiredFiles: [{ exp: /^JKSV\.nro$/, filename: 'JKSV.nro' }] }, { link: 'mtheall/ftpd', desiredFiles: [{ exp: /^ftpd\.nro$/, filename: 'ftpd.nro' }] }, { link: 'liuervehc/nxmtp', desiredFiles: [{ exp: /^nxmtp\.nro$/, filename: 'nxmtp.nro' }] }, { link: 'mrdude2478/TinWoo', desiredFiles: [{ exp: /^TinWoo-Installer\.zip$/, filename: 'TinWoo-Installer.zip' }] }, { link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro' }] }];
+    const desiredReleases = 
+        [{ 
+            link: 'CTCaer/hekate', desiredFiles: [{ 
+                exp: /^hekate_ctcaer_[0-9]*\.[0-9]+[0-9]*\.[0-9]+_[a-zA-Z]+_[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'hekate.zip' 
+            }]
+        }, 
+        {
+            link: 'Atmosphere-NX/Atmosphere', desiredFiles: [{ 
+                exp: /^atmosphere-(\d(\.\d)+)(\d(\.\d)+)-[a-zA-Z]+-[0-9]+a[0-9]+d-WITHOUT_MESOSPHERE\+hbl-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\+hbmenu-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'atmosphere.zip' 
+            }, 
+            { 
+                exp: /^fusee-primary\.bin$/, filename: 'fusee_primary.bin' 
+            }] 
+        }, 
+        { 
+            link: 'ITotalJustice/patches', desiredFiles: [{ 
+                exp: /^fusee\.zip$/, filename: 'fusee.zip' 
+            }] 
+        }, 
+        { 
+            link: 'Huntereb/Awoo-Installer', desiredFiles: [{ 
+                exp: /^Awoo-Installer\.zip$/, filename: 'awoo_installer.zip' 
+            }] 
+        }, 
+        { 
+            link: 'WerWolv/EdiZon', desiredFiles: [{ 
+                exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro' 
+            }] 
+        }, 
+        { 
+            link: 'XorTroll/Goldleaf', desiredFiles: [{ 
+                exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro' 
+            }] 
+        }, 
+        { 
+            link: 'SciresM/Checkpoint', desiredFiles: [{ 
+                exp: /^Checkpoint\.nro$/, filename: 'Checkpoint.nro' 
+            }] 
+        }, 
+        { 
+            link: 'J-D-K/JKSV', desiredFiles: [{ 
+                exp: /^JKSV\.nro$/, filename: 'JKSV.nro' 
+            }] 
+        }, 
+        { 
+            link: 'mtheall/ftpd', desiredFiles: [{ 
+                exp: /^ftpd\.nro$/, filename: 'ftpd.nro' 
+            }] 
+        }, 
+        { 
+            link: 'liuervehc/nxmtp', desiredFiles: [{ 
+                exp: /^nxmtp\.nro$/, filename: 'nxmtp.nro' 
+            }] 
+        }, 
+        { 
+            link: 'mrdude2478/TinWoo', desiredFiles: [{ 
+                exp: /^TinWoo-Installer\.zip$/, filename: 'TinWoo-Installer.zip' 
+            }] 
+        }, 
+        { 
+            link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ 
+                exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro' 
+            }] 
+        }];
 
     let files = [];
+
+    console.log(colors.warning('Récupération de la dernière version des dépôts GitHub en cours...\n'));
 
     for (let desiredRelease of desiredReleases) {
         const { link, desiredFiles } = desiredRelease;
@@ -147,7 +213,7 @@ async function checkKey(key) {
 
     files.push({ name: 'sxgear.zip', url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip', version: 'v1.1' }, { name: 'tinfoil.zip', url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip', version: 'v12.0' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest' });
 
-    console.log(colors.warning('Les fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
+    console.log(colors.warning('\nLes fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
 
     for (let file of files) {
         const { name, url, version } = file;
