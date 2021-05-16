@@ -205,6 +205,7 @@ if(!fs.existsSync(final_folder)) {
 
             console.log('\nContenu du pack:')
             
+<<<<<<< HEAD
             for (let file of files) {
                 const { name, version } = file;
                 console.log(`${name} (${version})`);
@@ -216,6 +217,110 @@ if(!fs.existsSync(final_folder)) {
                 console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
             };
 
+=======
+            fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/').then(() => {
+                console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/fusee/atmosphere/")} copié dans ${chalk.bold("./SD/atmosphere/")}.`));
+                
+                fs.copy('./temp/awoo_installer/switch/', './SD/switch/').then(() => {
+                    console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/awoo_installer/switch/")} copié dans ${chalk.bold("./SD/switch/")}.`));
+                    
+                    fs.copy('./temp/fusee_primary.bin', './SD/bootloader/payloads/fusee-primary.bin').then(() => {
+                        console.log(chalk.green(`Fichier ${chalk.bold("./temp/fusee_primary.bin")} copié dans ${chalk.bold("./SD/bootloader/payloads/fusee-primary.bin")}.`));
+                        
+                        fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/payload.bin').then(() => {
+                            console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate/hekate_ctcaer.bin")} copié dans ${chalk.bold("./SD/payload.bin")}.`));
+                            
+                            fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/atmosphere/reboot_payload.bin').then(() => {
+                                console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate/hekate_ctcaer.bin")} copié dans ${chalk.bold("./SD/atmosphere/reboot_payload.bin")}.`));
+                                
+                                fs.copy('./temp/hekate_ipl.ini', './SD/bootloader/hekate_ipl.ini').then(() => {
+                                    console.log(chalk.green(`Fichier ${chalk.bold("./temp/hekate_ipl.ini")} copié dans ${chalk.bold("./SD/bootloader/hekate_ipl.ini")}.`));
+                                    
+                                    fs.copy('./temp/exosphere.ini', './SD/exosphere.ini').then(() => {
+                                        console.log(chalk.green(`Fichier ${chalk.bold("./temp/exosphere.ini")} copié dans ${chalk.bold("./SD/exosphere.ini")}.`));
+                                        
+                                        if(!fs.existsSync('./SD/atmosphere/hosts')) {
+                                            fs.mkdirSync('./SD/atmosphere/hosts')
+                                        }
+
+                                        console.log(chalk.green(`Dossier ${chalk.bold("./SD/atmosphere/hosts")} créé.`));
+
+                                        fs.copy('./temp/sysmmc.txt', './SD/atmosphere/hosts/sysmmc.txt').then(() => {
+                                            console.log(chalk.green(`Fichier ${chalk.bold("./temp/sysmmc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/sysmmc.txt")}.`));
+                                            
+                                            fs.copy('./temp/emummc.txt', './SD/atmosphere/hosts/emummc.txt').then(() => {
+                                                console.log(chalk.green(`Fichier ${chalk.bold("./temp/emummc.txt")} copié dans ${chalk.bold("./SD/atmosphere/hosts/emummc.txt")}.`));
+                                            
+                                                fs.copy('./temp/TinWoo-Installer/', './SD/').then(() => {
+                                                    console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/TinWoo-Installer/")} copié dans ${chalk.bold("./SD/")}.`));
+
+                                                    fs.copy('./temp/tinfoil/', './SD/').then(() => {
+                                                        console.log(chalk.green(`Contenu du dossier ${chalk.bold("./temp/tinfoil/")} copié dans ${chalk.bold("./SD/")}.`));
+
+                                                        let homebrews = fs.readdirSync(output_folder).filter(f => f.endsWith('nro'));
+
+                                                        for (let homebrew of homebrews) {
+                                                            fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`).then(() => {
+                                                                console.log(chalk.green(`Fichier ${chalk.bold(`./temp/${homebrew}`)} copié dans ${chalk.bold(`./SD/switch/${homebrew}`)}.`));
+                                                            }).catch((error) => {
+                                                                console.log(chalk.red(error));
+                                                            });
+                                                        }
+                                                                        
+                                                        let zip = new AdmZip();
+
+                                                        zip.addLocalFolder('./SD/')
+                                                        zip.toBuffer((buffer, err) => {
+                                                            console.log('pack.zip en cours de création...')
+                                                            if(err) reject(err)
+                                                            console.log('\nContenu du pack:')
+                                                            for (let file of files) {
+                                                                const { name, version } = file;
+                                                                console.log(`${name} (${version})`);
+                                                            }
+                                                            if(buffer) {
+                                                                fs.emptyDirSync('./temp/', { recursive: true })
+                                                                console.log('Contenu du dossier "./temp" supprimé.');
+                                                                console.log(chalk.bold.green('\nTerminé ! pack.zip est disponible à la racine du programme !'));
+                                                            }
+                                                        });
+                                                        zip.writeZip('./pack.zip');
+                                                    }).catch((error) => {
+                                                        console.log(chalk.red(error));
+                                                    });
+                                                }).catch((error) => {
+                                                    console.log(chalk.red(error));
+                                                });
+                                            }).catch((error) => {
+                                                console.log(chalk.red(error));
+                                            });
+                                        }).catch((error) => {
+                                            console.log(chalk.red(error));
+                                        });
+                                    }).catch((error) => {
+                                        console.log(chalk.red(error));
+                                    });
+                                }).catch((error) => {
+                                    console.log(chalk.red(error));
+                                });
+                            }).catch((error) => {
+                                console.log(chalk.red(error));
+                            });
+                        }).catch((error) => {
+                            console.log(chalk.red(error));
+                        });
+                    }).catch((error) => {
+                        console.log(chalk.red(error));
+                    });
+                }).catch((error) => {
+                    console.log(chalk.red(error));
+                });
+            }).catch((error) => {
+                console.log(chalk.red(error));
+            });
+        }).catch((error) => {
+            console.log(chalk.red(error));
+>>>>>>> e3cbaef3905d44f4075ed986f6b1d06bb5c9383e
         });
         zip.writeZip('./pack.zip');
     } catch (error) {
