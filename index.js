@@ -86,19 +86,21 @@ async function checkKey(key) {
 
     async function getRelease(link, desiredFiles) {
         try {
-            let release = await fetch(`https://api.github.com/repos/${link}/releases`, { headers: { Authorization: `token ${GITHUB_TOKEN}` } });
-    
-            if (release.status === 404) {
-                console.log(colors.error(`https://api.github.com/repos/${link}/releases retourne une erreur 404.`));
-                process.exit();
-            } else if (release.headers.get('x-ratelimit-limit') == 60) {
+            if (!await checkKey(GITHUB_TOKEN)) {
                 console.log(colors.error('La clé d\'accès à l\'API de GitHub est erronnée, vous allez devoir recommencer une configuration.'));
                 if (fs.existsSync('./.env'))
                     await fs.unlink('./.env');
                 if (fs.existsSync('./key.txt'))
                     await fs.unlink('./key.txt');
                 process.exit();
-            } else if (release.headers.get('x-ratelimit-remaining') == 0) {
+            };
+
+            let release = await fetch(`https://api.github.com/repos/${link}/releases`, { headers: { Authorization: `token ${GITHUB_TOKEN}` } });
+    
+            if (release.status === 404) {
+                console.log(colors.error(`https://api.github.com/repos/${link}/releases retourne une erreur 404.`));
+                process.exit();
+            }  else if (release.headers.get('x-ratelimit-remaining') == 0) {
                 console.log(colors.error(`Vous avez dépassé le nombre de requêtes maximum par heure, vous devez attendre ${colors.default(moment(Number(release.headers.get('x-ratelimit-reset')) * 1000).format('ddd LL, LTS'))} avant de pouvoir réutiliser le programme.`));
                 process.exit();
             };
