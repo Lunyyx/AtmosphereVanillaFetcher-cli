@@ -150,7 +150,7 @@ async function checkKey(key) {
             }] 
         }, 
         { 
-            link: 'THZoria/patches', desiredFiles: [{ 
+            link: 'ITotalJustice/patches', desiredFiles: [{ 
                 exp: /^fusee\.zip$/, filename: 'fusee.zip' 
             }] 
         }, 
