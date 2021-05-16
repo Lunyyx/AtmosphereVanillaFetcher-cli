@@ -199,7 +199,7 @@ async function checkKey(key) {
     console.log(colors.warning('\nCréation du fichier boot.dat contenant hekate...'));
 
     fs.rename(`./temp/hekate/hekate_ctcaer_${hekate_version}.bin`, './temp/hekate/hekate_ctcaer.bin', () => {
-        console.log(colors.warning(`Fichier ${colors.default(`hekate_ctcaer_${hekate_version}.bin`)} renommé en ${colors.default('hekate_ctcaer.bin')}.`));
+        console.log(colors.warning(`Le fichier ${colors.default(`hekate_ctcaer_${hekate_version}.bin`)} a été renommé en ${colors.default('hekate_ctcaer.bin')}.`));
     });
 
     PythonShell.run('./python/tx_custom_boot.py', null, function (e) {
