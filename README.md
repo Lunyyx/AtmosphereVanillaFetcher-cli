@@ -40,17 +40,12 @@ Vous avez désormais votre token, vous pouvez passer à la suite !
 npm install
 ```
 
-4. Créez un fichier **.env** à la racine du programme, avec le contenu suivant:
-```
-GITHUB_TOKEN=votre_token_ici
-```
-(Remplacez évidemment **votre_token_ici** par votre token GitHub.)
-
-5. Exécutez le programme avec la commande suivante:
+4. Exécutez le programme avec la commande suivante:
 ```
 node index
 ```
-Si tout se passe bien, le programme devrait télécharger les fichiers, les organiser et les compresser dans un fichier nommé **pack.zip** qui sera présent à la racine du programme.
+Si tout se passe bien, le programme devrait vous demander votre token GitHub, entrez le token que vous avez obtenu précédemment.<br>
+Ensuite le programme devrait télécharger les fichiers, les organiser et les compresser dans un fichier nommé **pack.zip** qui sera présent à la racine du programme.
 
 Si vous avez le moindre problème, merci de le signaler ici: https://github.com/Lunyyx/AtmosphereVanillaFetcher/issues<br>
 (Si des utilisateurs ou développeurs veulent clarifier mes propos, n'hésitez surtout pas)
@@ -98,17 +93,12 @@ You now have your token, you can move on!
 npm install
 ```
 
-4. Create a **.env** file at the root of the program, with the following contents:
-```
-GITHUB_TOKEN=your_token_here
-```
-(Obviously replace **your_token_here** with your GitHub token.)
-
-5. Run the program with the following command:
+4. Run the program with the following command:
 ```
 node index
 ```
-If everything goes well, the program should download the files, organize them and compress them into a file named **pack.zip** which will be present in the root of the program.
+If everything goes well, the program should ask you for your GitHub token, enter the token you got earlier.<br>
+Then the program should download the files, organize them and compress them into a file named **pack.zip** which will be present in the root of the program.
 
 If you have any problems, please report them here: https://github.com/Lunyyx/AtmosphereVanillaFetcher/issues<br>
 (If users or developers want to clarify what I said, please do not hesitate)
