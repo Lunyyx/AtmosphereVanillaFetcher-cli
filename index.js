@@ -32,6 +32,7 @@ async function checkKey(key) {
 };
 
 (async () => {
+    console.clear();
     console.log(colors.default(`
   ___  _                             _          ✢         _   _             _ _ _      ______   _       _               ✢
  / _ \\| |             ✢             | |                  | | | |           (_) | |     |  ___| | |     | |              
