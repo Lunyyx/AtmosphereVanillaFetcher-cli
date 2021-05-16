@@ -294,7 +294,9 @@ async function checkKey(key) {
         console.log(colors.success(`Le fichier ${colors.default('temp/hekate_ipl.ini')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/exosphere.ini', './SD/exosphere.ini');
         console.log(colors.success(`Le fichier ${colors.default('temp/exosphere.ini')} a été copié vers le dossier ${colors.default('SD')}.`));
-
+        await fs.copy('./temp/version.txt', './SD/version.txt');
+        console.log(colors.success(`Le fichier ${colors.default('temp/version.txt')} a été copié vers le dossier ${colors.default('SD')}.`));
+       
         if (!fs.existsSync('./SD/atmosphere/hosts')) {
             await fs.mkdir('./SD/atmosphere/hosts');
             console.log(colors.success(`Le dossier ${colors.default('hosts')} a été créé dans ${colors.default('SD/atmosphere')}.`));
