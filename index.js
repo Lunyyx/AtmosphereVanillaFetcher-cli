@@ -7,7 +7,6 @@ const chalk = require('chalk');
 const {PythonShell} = require('python-shell');
 const moment = require('moment');
 const AdmZip = require('adm-zip');
-const prompts = require('prompts');
 require('dotenv').config();
 moment.locale('fr');
 
