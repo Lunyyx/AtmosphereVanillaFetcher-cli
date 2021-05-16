@@ -4,3 +4,4 @@ temp/
 .env
 package-lock.json
 pack.zip
+yarn.lock
