@@ -126,17 +126,16 @@ if(!fs.existsSync(final_folder)) {
 
     console.log('\nPréparation du dossier "SD"...');
 
-    let temp_files = fs.readdirSync(output_folder);
-    let zip_temp_files = temp_files.filter(f => f.endsWith('.zip'));
+    let zip_temp_files = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('.zip')) });
     
     for (let zip of zip_temp_files) {
         const zip_file = new StreamZip.async({ file: `./temp/${zip}` });
 
         if(!fs.existsSync(`./temp/${zip.replace('.zip', '')}`))
-            fs.mkdirSync(`./temp/${zip.replace('.zip', '')}`);
+            await fs.mkdir(`./temp/${zip.replace('.zip', '')}`);
         else {
-            fs.rmSync(`./temp/${zip.replace('.zip', '')}`, { recursive: true });
-            fs.mkdirSync(`./temp/${zip.replace('.zip', '')}`);
+            await fs.rm(`./temp/${zip.replace('.zip', '')}`, { recursive: true });
+            await fs.mkdir(`./temp/${zip.replace('.zip', '')}`);
         };
 
         const count = await zip_file.extract(null, `./temp/${zip.replace('.zip', '')}`);
@@ -147,9 +146,9 @@ if(!fs.existsSync(final_folder)) {
 
     fs.rename('./temp/hekate/hekate_ctcaer_5.5.6.bin', './temp/hekate/hekate_ctcaer.bin', () => {
         console.log('Fichier hekate renommé en "hekate_ctcaer.bin".');
-    })
+    });
 
-    await PythonShell.run('./python/tx_custom_boot.py', null, function (err) {
+    PythonShell.run('./python/tx_custom_boot.py', null, function (err) {
         if (err) throw chalk.red(err);
         console.log(chalk.bold.green('\nFichier "boot.dat" généré avec succès dans ./SD/ !'));
     })
