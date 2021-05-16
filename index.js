@@ -1,13 +1,12 @@
 const fetch = require('node-fetch');
 const fs = require('fs-extra')
 const Downloader = require('nodejs-file-downloader');
-const StreamZip = require('node-stream-zip');
 const cliProgress = require('cli-progress');
 const chalk = require('chalk');
 const { PythonShell } = require('python-shell');
 const moment = require('moment');
-const AdmZip = require('adm-zip');
 const qoa = require('qoa');
+const ZIP = require('zip-lib');
 require('dotenv').config();
 moment.locale('fr');
 
@@ -211,7 +210,7 @@ async function checkKey(key) {
         files = files.concat(release);
     };
 
-    files.push({ name: 'sxgear.zip', url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip', version: 'v1.1' }, { name: 'tinfoil.zip', url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip', version: 'v12.0' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest' });
+    files.push({ name: 'sxgear.zip', url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip', version: 'v1.1' }, { name: 'tinfoil.zip', url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip', version: 'v12.0' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '1.0.7' });
 
     console.log(colors.warning('\nLes fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
 
@@ -249,17 +248,14 @@ async function checkKey(key) {
     let zip_temp_files = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('.zip')) });
 
     for (let zip of zip_temp_files) {
-        const zip_file = new StreamZip.async({ file: `./temp/${zip}` });
-
         if(!fs.existsSync(`./temp/${zip.replace('.zip', '')}`))
             await fs.mkdir(`./temp/${zip.replace('.zip', '')}`);
         else {
             await fs.rm(`./temp/${zip.replace('.zip', '')}`, { recursive: true });
             await fs.mkdir(`./temp/${zip.replace('.zip', '')}`);
         };
-
-        const count = await zip_file.extract(null, `./temp/${zip.replace('.zip', '')}`);
-        console.log(colors.success(`Le fichier ${colors.default(zip)} a été extrait avec succès. (${count})`));
+        await ZIP.extract(`./temp/${zip}`, `./temp/${zip.replace('.zip', '')}`);
+        console.log(colors.success(`Le fichier ${colors.default(zip)} a été extrait avec succès.`));
     };
 
     console.log(colors.warning('\nCréation du fichier boot.dat contenant hekate...'));
@@ -294,6 +290,8 @@ async function checkKey(key) {
         console.log(colors.success(`Le fichier ${colors.default('temp/hekate_ipl.ini')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/exosphere.ini', './SD/exosphere.ini');
         console.log(colors.success(`Le fichier ${colors.default('temp/exosphere.ini')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/version.txt', './SD/version.txt');
+        console.log(colors.success(`Le fichier ${colors.default('temp/version.txt')} a été copié vers le dossier ${colors.default('SD')}.`));
 
         if (!fs.existsSync('./SD/atmosphere/hosts')) {
             await fs.mkdir('./SD/atmosphere/hosts');
@@ -316,29 +314,17 @@ async function checkKey(key) {
             console.log(colors.success(`Le contenu du dossier ${colors.default(`temp/${homebrew}`)} a été copié vers le dossier ${colors.default('SD/switch')}.`));
         };
 
-        let zip = new AdmZip();
+        console.log(colors.success('\nLe pack est en cours de création...\n'));
+        await ZIP.archiveFolder('./SD', './pack.zip');
 
-        zip.addLocalFolder('./SD/');
-        zip.toBuffer(async (buffer, err) => {
-            console.log(colors.success('\nLe pack est en cours de création...\n'));
-            if (err)
-                throw err;
+        console.log(colors.success('Voici le contenu du pack:'));
+        for (let file of files) {
+            const { name, version } = file;
+            console.log(colors.default(`${name} (${version})`));
+        };
 
-            console.log(colors.success('Voici le contenu du pack:'))
-            
-            for (let file of files) {
-                const { name, version } = file;
-                console.log(colors.default(`${name} (${version})`));
-            };
-
-            if(buffer) {
-                await fs.emptyDir('./temp/', { recursive: true });
-                await fs.emptyDir('./SD/', { recursive: true });
-                console.log(colors.warning('\nLes contenus des dossiers temp et SD ont été supprimés.'), colors.success(`\nLe pack a été créé avec succès ${colors.default('(pack.zip)')}.`));
-            };
-
-        });
-        zip.writeZip('./pack.zip');
+        await fs.emptyDir('./temp/', { recursive: true });
+        console.log(colors.warning(`\nLe contenu du dossier ${colors.default('temp')} a été supprimé.`), colors.success(`\nLe pack a été créé avec succès ${colors.default('(pack.zip)')}.`));
     } catch (e) {
         console.log(colors.error(`[Copie et création du pack.zip] Une erreur est survenue: ${e}`));
     };
