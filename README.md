@@ -16,6 +16,11 @@ AtmosphereVanillaFetcher est un petit programme permettant de télécharger un p
 
 https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
 
+En cas de souci avec le script, vous pouvez trouver de l'aide sur notre discord
+
+[![Discord](https://img.shields.io/discord/643436008452521984.svg?logo=discord&logoColor=white&label=Discord&color=7289DA
+)](https://discord.gg/XRYzNKyc)
+
 --------------------------
 
 ### EN
@@ -31,3 +36,8 @@ AtmosphereVanillaFetcher is a small program to download a pack of the latest Atm
 # 🤓 User's guide
 
 https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
+
+If you have any problems with the script, you can find help on our discord
+
+[![Discord](https://img.shields.io/discord/643436008452521984.svg?logo=discord&logoColor=white&label=Discord&color=7289DA
+)](https://discord.gg/XRYzNKyc)
