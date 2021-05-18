@@ -28,6 +28,6 @@ AtmosphereVanillaFetcher is a small program to download a pack of the latest Atm
 
 - Python: https://www.python.org/downloads/
 
-# 🤓 Utilisation du programme
+# 🤓 Usage of the program
 
 https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
