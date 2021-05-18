@@ -12,7 +12,7 @@ AtmosphereVanillaFetcher est un petit programme permettant de télécharger un p
 
 - Python: https://www.python.org/downloads/
 
-# 🤓 Utilisation du programme
+# 🤓 Guide d'utilisation
 
 https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
 
@@ -28,6 +28,6 @@ AtmosphereVanillaFetcher is a small program to download a pack of the latest Atm
 
 - Python: https://www.python.org/downloads/
 
-# 🤓 Usage of the program
+# 🤓 User's guide
 
 https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
