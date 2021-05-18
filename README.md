@@ -10,53 +10,9 @@ AtmosphereVanillaFetcher est un petit programme permettant de télécharger un p
 
 - Python: https://www.python.org/downloads/
 
-# 🤔 Comment utiliser ce programme ?
+# 🤓 Utilisation du programme
 
-Le programme est automatique, c'est-à-dire qu'il ne nécessite aucune action de votre part pendant son fonctionnement.
-
-Afin d'éviter la limite de requêtes de l'API GitHub, vous devez utiliser votre token de compte afin de pouvoir utiliser ce programme. (Une version sans token arrivera peut-être dans le futur) 
-
-## 🐱 Obtenir mon token GitHub
-
-1. Connectez-vous à votre compte GitHub
-
-2. Cliquez sur votre photo de profil en haut à droite, et cliquez sur **Settings**
-
-3. Allez dans le menu **Developper settings**, puis **Personnal access tokens**
-
-4. Cliquez sur **Generate new tokens**
-
-5. Entrez une note pour vous rappeler de l'utilité du token, vous n'avez besoin d'aucune permission particulière, il n'est donc pas nécessaire de toucher aux permissions
-
-6. Cliquez sur **Generate token**
-
-7. Copiez ce token à un endroit où vous pourrez le retrouver afin de pouvoir l'utiliser pour le programme
-
-Vous avez désormais votre token, vous pouvez passer à la suite !
-
-## 📚 Paramétrer et utiliser le programme
-
-1. Téléchargez le ZIP du projet et décompressez-le à l'endroit de votre choix
-
-2. Ouvrez un terminal dans le dossier du projet<br>
-(Sur Windows, vous pouvez faire **Shift+Clic droit** puis **Ouvrir la fenêtre PowerShell ici**, ou alors naviguer manuellement depuis un terminal)
-
-3. Entrez cette commande pour initialiser le projet:
-```
-npm install
-```
-
-4. Exécutez le programme avec la commande suivante:
-```
-node index
-```
-Si tout se passe bien, le programme devrait vous demander votre token GitHub, entrez le token que vous avez obtenu précédemment.<br>
-Ensuite le programme devrait télécharger les fichiers, les organiser et les compresser dans un fichier nommé **pack.zip** qui sera présent à la racine du programme.
-
-Si vous avez le moindre problème, merci de le signaler ici: https://github.com/Lunyyx/AtmosphereVanillaFetcher/issues<br>
-(Si des utilisateurs ou développeurs veulent clarifier mes propos, n'hésitez surtout pas)
-
-------------------------------
+https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
 
 # 🌌 AtmosphereVanillaFetcher
 
@@ -70,47 +26,6 @@ AtmosphereVanillaFetcher is a small program to download a pack of the latest Atm
 
 - Python: https://www.python.org/downloads/
 
-# 🤔 How to use this program?
+# 🤓 Utilisation du programme
 
-The program is automatic, meaning that it does not require any action from you while it is running.
-In order to avoid the GitHub API request limit, you must use your account token in order to use this program. (A version without token may come in the future) 
-
-## 🐱 Getting my GitHub token
-
-1. Login to your GitHub account
-
-2. Click on your profile picture in the top right corner, and click on **Settings**
-
-3. Go to the **Developer settings** menu, then **Personal access tokens**
-
-4. Click on **Generate new tokens**.
-
-5. Enter a note to remind you of the purpose of the token, you don't need any particular permission, so it is not necessary to touch the permissions
-
-6. Click on **Generate token**
-
-7. Copy this token to a location where you can find it and use it for the program
-
-You now have your token, you can move on!
-
-## 📚 Set up and use the program
-
-1. Download the ZIP of the project and unzip it to the location of your choice
-
-2. Open a terminal in the project folder<br>
-(On Windows, you can do **Shift+Right click** then **Open PowerShell window here**, or manually navigate from a terminal)
-
-3. Enter this command to initialize the project:
-```
-npm install
-```
-
-4. Run the program with the following command:
-```
-node index
-```
-If everything goes well, the program should ask you for your GitHub token, enter the token you got earlier.<br>
-Then the program should download the files, organize them and compress them into a file named **pack.zip** which will be present in the root of the program.
-
-If you have any problems, please report them here: https://github.com/Lunyyx/AtmosphereVanillaFetcher/issues<br>
-(If users or developers want to clarify what I said, please do not hesitate)
+https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
