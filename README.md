@@ -2,9 +2,9 @@
  
 <img src="https://i.imgur.com/xwhZrTP.png">
 
-AtmosphereVanillaFetcher est un petit programme permettant de télécharger un pack des toutes dernières mises à jours d'Atmosphere avec quelques homebrews en plus.
-
 ### FR
+
+AtmosphereVanillaFetcher est un petit programme permettant de télécharger un pack des toutes dernières mises à jours d'Atmosphere avec quelques homebrews en plus.
 
 # 🔧 Les prérequis
 
