@@ -62,4 +62,5 @@ Thanks to the developer for their work
 - Sigpatch : https://github.com/THZoria/patches
 
 Special thanks to SciresM and all the Reswitched team who made this possible ^^
+
 And a big thanks to Lunyx and MurasakiNX for the work on the fetcher
