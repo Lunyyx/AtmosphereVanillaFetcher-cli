@@ -143,7 +143,7 @@ async function checkKey(key) {
         }, 
         {
             link: 'Atmosphere-NX/Atmosphere', desiredFiles: [{ 
-                exp: /^atmosphere-(\d(\.\d)+)(\d(\.\d)+)-[a-zA-Z]+-[0-9]+a[0-9]+d-WITHOUT_MESOSPHERE\+hbl-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\+hbmenu-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'atmosphere.zip' 
+                exp: /^atmosphere-(\d+(\.\d+))((\.\d+))-[a-zA-Z]+-[a-zA-Z0-9]+-WITHOUT_MESOSPHERE\+hbl-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\+hbmenu-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'atmosphere.zip' 
             }, 
             { 
                 exp: /^fusee-primary\.bin$/, filename: 'fusee_primary.bin' 
