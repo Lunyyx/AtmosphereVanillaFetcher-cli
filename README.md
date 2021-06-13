@@ -6,13 +6,13 @@
 
 AtmosphereVanillaFetcher est un petit programme permettant de télécharger un pack des toutes dernières mises à jours d'Atmosphere avec quelques homebrews en plus.
 
-# 🔧 Les prérequis
+## 🔧 Les prérequis
 
 - Node.js (v12 ou supérieur): https://nodejs.org/en/download/
 
 - Python: https://www.python.org/downloads/
 
-# 🤓 Guide d'utilisation
+## 🤓 Guide d'utilisation
 
 https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
 
@@ -27,13 +27,13 @@ En cas de souci avec le script, vous pouvez trouver de l'aide sur notre discord
 
 AtmosphereVanillaFetcher is a small program to download a pack of the latest Atmosphere updates with some extra homebrews.
 
-# 🔧 Prerequisites
+## 🔧 Prerequisites
 
 - Node.js (v12 or newer): https://nodejs.org/en/download/
 
 - Python: https://www.python.org/downloads/
 
-# 🤓 User's guide
+## 🤓 User's guide
 
 https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
 
