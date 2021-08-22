@@ -33,7 +33,7 @@ AtmosphereVanillaFetcher is a small program to download a pack of the latest Atm
 
 ## 🤓 User's guide
 
-https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
+https://github.com/Lunyyx/AtmosphereVanillaFetcher-CLI/wiki/Accueil-Home
 
 If you have any problems with the script, you can find help on our discord
 
