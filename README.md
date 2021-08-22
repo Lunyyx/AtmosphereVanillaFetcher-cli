@@ -13,7 +13,7 @@ AtmosphereVanillaFetcher est un petit programme permettant de télécharger un p
 
 ## 🤓 Guide d'utilisation
 
-https://github.com/Lunyyx/AtmosphereVanillaFetcher/wiki/Accueil-Home
+https://github.com/Lunyyx/AtmosphereVanillaFetcher-cli/wiki/Accueil-Home
 
 En cas de souci avec le script, vous pouvez trouver de l'aide sur notre discord
 
