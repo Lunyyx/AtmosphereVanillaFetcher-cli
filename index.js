@@ -156,28 +156,28 @@ async function checkKey(key) {
         },
         { 
             link: 'WerWolv/EdiZon', desiredFiles: [{ 
-                exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro' //
+                exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro'
             }] 
         }, 
         { 
             link: 'XorTroll/Goldleaf', desiredFiles: [{ 
-                exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro' //
+                exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro'
             }] 
         },		
 		{ 
             link: 'PoloNX/sigpatch-downloader', desiredFiles: [{ 
-                exp: /^sigpatch-downloader\.nro$/, filename: 'sigpatch-downloader.nro' //
+                exp: /^sigpatch-downloader\.nro$/, filename: 'sigpatch-downloader.nro'
             }] 
         }, 
 		
         { 
             link: 'J-D-K/JKSV', desiredFiles: [{ 
-                exp: /^JKSV\.nro$/, filename: 'JKSV.nro' //
+                exp: /^JKSV\.nro$/, filename: 'JKSV.nro'
             }] 
         }, 
         { 
             link: 'liuervehc/nxmtp', desiredFiles: [{ 
-                exp: /^nxmtp\.nro$/, filename: 'nxmtp.nro' //
+                exp: /^nxmtp\.nro$/, filename: 'nxmtp.nro'
             }] 
         }, 
         { 
@@ -187,7 +187,7 @@ async function checkKey(key) {
         }, 
         { 
             link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ 
-                exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro' //
+                exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro'
             }] 
         },
     ];

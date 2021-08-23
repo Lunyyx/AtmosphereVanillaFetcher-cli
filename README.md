@@ -31,6 +31,12 @@ En cas de souci avec le script, vous pouvez trouver de l'aide sur notre discord
 <img src="https://i.pinimg.com/originals/2e/27/30/2e2730e0f69823b94989647b08806203.png" height="64">
 AtmosphereVanillaFetcher is a small program to download a pack of the latest Atmosphere updates with some extra homebrews.
 
+This compiler is based on AtmoPack-Vanilla and contains a fork for AtmoPack-Full that incorporates some useful overlays and sys.
+
+- AtmoPack-Vanilla : https://github.com/THZoria/AtmoPack-Vanilla
+- Atmopack-Full : https://github.com/Pikatsuto/AtmoPack-Full
+- AtmosphereVanillaFetcher For for AtmoPack-Full : https://github.com/Pikatsuto/AtmosphereVanillaFetcher-cli-Fork-for-AtmoPack-Full
+
 ## 🔧 Prerequisites
 
 - Node.js (v12 or newer): https://nodejs.org/en/download/
