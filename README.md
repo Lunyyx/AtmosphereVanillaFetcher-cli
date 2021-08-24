@@ -9,7 +9,7 @@ Ce compilateur est basé sur AtmoPack-Vanilla et contient un fork pour AtmoPack-
 
 - AtmoPack-Vanilla : https://github.com/THZoria/AtmoPack-Vanilla
 - Atmopack-Full : https://github.com/Pikatsuto/AtmoPack-Full
-- AtmosphereFullFetcher For for AtmoPack-Full : https://github.com/Pikatsuto/AtmosphereFullFetcher-cli
+- AtmosphereFullFetcher pour AtmoPack-Full : https://github.com/Pikatsuto/AtmosphereFullFetcher-cli
 
 ## 🔧 Les prérequis
 
@@ -35,7 +35,7 @@ This compiler is based on AtmoPack-Vanilla and contains a fork for AtmoPack-Full
 
 - AtmoPack-Vanilla : https://github.com/THZoria/AtmoPack-Vanilla
 - Atmopack-Full : https://github.com/Pikatsuto/AtmoPack-Full
-- AtmosphereFullFetcher For for AtmoPack-Full : https://github.com/Pikatsuto/AtmosphereFullFetcher-cli
+- AtmosphereFullFetcher for AtmoPack-Full : https://github.com/Pikatsuto/AtmosphereFullFetcher-cli
 
 ## 🔧 Prerequisites
 
