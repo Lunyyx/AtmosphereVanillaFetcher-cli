@@ -155,11 +155,6 @@ async function checkKey(key) {
             }] 
         }, 
         { 
-            link: 'Huntereb/Awoo-Installer', desiredFiles: [{ 
-                exp: /^Awoo-Installer\.zip$/, filename: 'awoo_installer.zip' 
-            }] 
-        }, 
-        { 
             link: 'WerWolv/EdiZon', desiredFiles: [{ 
                 exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro' 
             }] 
@@ -169,18 +164,6 @@ async function checkKey(key) {
                 exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro' 
             }] 
         }, 
-        { 
-            link: 'SciresM/Checkpoint', desiredFiles: [{ 
-                exp: /^Checkpoint\.nro$/, filename: 'Checkpoint.nro' 
-            }] 
-        }, 
-		
-		{ 
-            link: 'PoloNX/sigpatch-downloader', desiredFiles: [{ 
-                exp: /^sigpatch-downloader\.nro$/, filename: 'sigpatch-downloader.nro' 
-            }] 
-        }, 
-		
         { 
             link: 'J-D-K/JKSV', desiredFiles: [{ 
                 exp: /^JKSV\.nro$/, filename: 'JKSV.nro' 
@@ -217,7 +200,7 @@ async function checkKey(key) {
         files = files.concat(release);
     };
 
-    files.push({ name: 'sxgear.zip', url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip', version: 'v1.1' }, { name: 'tinfoil.zip', url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip', version: 'v12.0' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '1.0.7' });
+    files.push({ name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '2.0.0' });
 
     console.log(colors.warning('\nLes fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
 
@@ -285,8 +268,6 @@ async function checkKey(key) {
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/hekate/bootloader')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/fusee/atmosphere')} a été copié vers le dossier ${colors.default('SD/atmosphere')}.`));
-        await fs.copy('./temp/awoo_installer/switch/', './SD/switch/');
-        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/awoo_installer/switch')} a été copié vers le dossier ${colors.default('SD/switch')}.`));
         await fs.copy('./temp/fusee_primary.bin', './SD/bootloader/payloads/fusee-primary.bin');
         console.log(colors.success(`Le fichier ${colors.default('temp/fusee_primary.bin')} a été copié vers le dossier ${colors.default('SD/bootloader/payloads')}`));
         await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/payload.bin');
@@ -311,8 +292,6 @@ async function checkKey(key) {
         console.log(colors.success(`Le fichier ${colors.default('temp/emummc.txt')} a été copié vers le dossier ${colors.default('SD/atmosphere/hosts')}.`));
         await fs.copy('./temp/TinWoo-Installer/', './SD/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/TinWoo-Installer')} a été copié vers le dossier ${colors.default('SD')}.`));
-        await fs.copy('./temp/tinfoil/', './SD/');
-        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/tinfoil')} a été copié vers le dossier ${colors.default('SD')}.`));
 
         let homebrews = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('nro')) });
         
@@ -331,7 +310,8 @@ async function checkKey(key) {
         };
 
         await fs.emptyDir('./temp/', { recursive: true });
-        console.log(colors.warning(`\nLe contenu du dossier ${colors.default('temp')} a été supprimé.`), colors.success(`\nLe pack a été créé avec succès ${colors.default('(pack.zip)')}.`));
+        await fs.emptyDir('./SD/', { recursive: true });
+        console.log(colors.warning(`\nLe contenu des dossiers ${colors.default('temp')} et ${colors.default('SD')} ont étés supprimés.`), colors.success(`\nLe pack a été créé avec succès ${colors.default('(pack.zip)')}.`));
     } catch (e) {
         console.log(colors.error(`[Copie et création du pack.zip] Une erreur est survenue: ${e}`));
     };
