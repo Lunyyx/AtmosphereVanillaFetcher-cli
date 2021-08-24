@@ -1,4 +1,4 @@
-﻿# 🌌 AtmosphereVanillaFetcher
+﻿# 🌌 AtmosphereVanillaFetcher (CLI)
  
 <img src="https://i.imgur.com/xwhZrTP.png">
 
