@@ -153,12 +153,7 @@ async function checkKey(key) {
             link: 'ITotalJustice/patches', desiredFiles: [{ 
                 exp: /^fusee\.zip$/, filename: 'fusee.zip' 
             }] 
-        }, 
-        { 
-            link: 'Huntereb/Awoo-Installer', desiredFiles: [{ 
-                exp: /^Awoo-Installer\.zip$/, filename: 'awoo_installer.zip' 
-            }] 
-        }, 
+        },
         { 
             link: 'WerWolv/EdiZon', desiredFiles: [{ 
                 exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro' 
@@ -168,13 +163,7 @@ async function checkKey(key) {
             link: 'XorTroll/Goldleaf', desiredFiles: [{ 
                 exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro' 
             }] 
-        }, 
-        { 
-            link: 'SciresM/Checkpoint', desiredFiles: [{ 
-                exp: /^Checkpoint\.nro$/, filename: 'Checkpoint.nro' 
-            }] 
-        }, 
-		
+        },		
 		{ 
             link: 'PoloNX/sigpatch-downloader', desiredFiles: [{ 
                 exp: /^sigpatch-downloader\.nro$/, filename: 'sigpatch-downloader.nro' 
@@ -184,11 +173,6 @@ async function checkKey(key) {
         { 
             link: 'J-D-K/JKSV', desiredFiles: [{ 
                 exp: /^JKSV\.nro$/, filename: 'JKSV.nro' 
-            }] 
-        }, 
-        { 
-            link: 'mtheall/ftpd', desiredFiles: [{ 
-                exp: /^ftpd\.nro$/, filename: 'ftpd.nro' 
             }] 
         }, 
         { 
@@ -205,7 +189,73 @@ async function checkKey(key) {
             link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ 
                 exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro' 
             }] 
-        }];
+        },
+        {// Pikatsuto Start
+            link: 'TheModdersDen/BootSoundNX', desiredFiles: [{ 
+                exp: /^BootSoundNX-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'boot-sound-nx.zip' 
+            }] 
+        },
+        { 
+            link: 'exelix11/SwitchThemeInjector', desiredFiles: [{ 
+                exp: /^NXThemesInstaller\.nro$/, filename: 'nx-themes-installer.nro' 
+            }] 
+        },
+        { 
+            link: 'shchmue/Lockpick_RCM', desiredFiles: [{ 
+                exp: /^Lockpick_RCM\.bin$/, filename: 'lockpick-RCM.bin' 
+            }] 
+        },
+        { 
+            link: 'XorTroll/emuiibo', desiredFiles: [{ 
+                exp: /^emuiibo-v[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'emuiibo.zip' 
+            }] 
+        },
+        { 
+            link: 'Hartie95/fastCFWswitch', desiredFiles: [{ 
+                exp: /^fastCFWswitch_[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'fastCFWswitch.zip' 
+            }] 
+        },
+        { 
+            link: 'masagrator/Status-Monitor-Overlay', desiredFiles: [{ 
+                exp: /^Status-Monitor-Overlay\.ovl$/, filename: 'status-monitor-overlay.ovl' 
+            }] 
+        },
+        { 
+            link: 'WerWolv/ovl-sysmodules', desiredFiles: [{ 
+                exp: /^ovlSysmodules\.ovl$/, filename: 'ovl-sysmodules.ovl' 
+            }] 
+        },
+        { 
+            link: 'plutooo/nx-btred', desiredFiles: [{ 
+                exp: /^nx-bted-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'nx-bted.zip' 
+            }] 
+        },
+        { 
+            link: 'ndeadly/MissionControl', desiredFiles: [{ 
+                exp: /^MissionControl-[0-9]*\.[0-9]+[0-9]*\.[0-9]+-master-[a-zA-Z0-9]+\.zip$/, filename: 'mission-control.zip'
+            }] 
+        },
+        { 
+            link: 'HookedBehemoth/sys-tune', desiredFiles: [{ 
+                exp: /^sys-tune-[0-9]*\.[0-9]+[0-9]*\.[0-9]+-[a-zA-Z0-9]+\.zip$/, filename: 'sys-tune.zip' 
+            }] 
+        },
+        { 
+            link: 'cathery/sys-ftpd-light', desiredFiles: [{ 
+                exp: /^sys-ftpd-light-[0-9]*\.[0-9]+[0-9]*\.[0-9]+\.zip$/, filename: 'sys-ftpd-light.zip' 
+            }] 
+        },
+        { 
+            link: 'SegFault42/sys-ftpd-ovl', desiredFiles: [{ 
+                exp: /^sys-ftpd-ovl\.ovl$/, filename: 'sys-ftpd-ovl.ovl' 
+            }] 
+        },
+        { 
+            link: 'WerWolv/Tesla-Menu', desiredFiles: [{ 
+                exp: /^ovlmenu\.zip$/, filename: 'ovlmenu.zip' 
+            }] 
+        }// Pikatsuto End
+    ];
 
     let files = [];
 
@@ -217,7 +267,7 @@ async function checkKey(key) {
         files = files.concat(release);
     };
 
-    files.push({ name: 'sxgear.zip', url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip', version: 'v1.1' }, { name: 'tinfoil.zip', url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip', version: 'v12.0' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '1.0.7' });
+    files.push({ name: 'sxgear.zip', url: 'http://mirror.gs2012.xyz/NSwitch/HOMEBREW/CFW/SXOS/SX%20Gear/SX_Gear_v1.0.zip', version: 'v1.1' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '1.0.7' }, { name: 'bootsound.mp3', url: 'https://github.com/Pikatsuto/AtmoPack-Full/raw/main/pack/AtmoPack-Full/config/BootSoundNX/sound/bootsound.mp3', version: 'latest'}, { name: 'config.ini', url: 'https://raw.githubusercontent.com/Pikatsuto/AtmoPack-Full/main/pack/AtmoPack-Full/config/fastCFWSwitch/config.ini', version: 'latest'}, { name: 'config-sys-ftpd.ini', url: 'https://raw.githubusercontent.com/Pikatsuto/AtmoPack-Full/main/pack/AtmoPack-Full/config/sys-ftpd/config.ini', version: 'latest'});
 
     console.log(colors.warning('\nLes fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
 
@@ -284,8 +334,6 @@ async function checkKey(key) {
         await fs.copy('./temp/hekate/bootloader/', './SD/bootloader/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/hekate/bootloader')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/');
-        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/fusee/atmosphere')} a été copié vers le dossier ${colors.default('SD/atmosphere')}.`));
-        await fs.copy('./temp/awoo_installer/switch/', './SD/switch/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/awoo_installer/switch')} a été copié vers le dossier ${colors.default('SD/switch')}.`));
         await fs.copy('./temp/fusee_primary.bin', './SD/bootloader/payloads/fusee-primary.bin');
         console.log(colors.success(`Le fichier ${colors.default('temp/fusee_primary.bin')} a été copié vers le dossier ${colors.default('SD/bootloader/payloads')}`));
@@ -304,6 +352,10 @@ async function checkKey(key) {
             await fs.mkdir('./SD/atmosphere/hosts');
             console.log(colors.success(`Le dossier ${colors.default('hosts')} a été créé dans ${colors.default('SD/atmosphere')}.`));
         };
+        if (!fs.existsSync('./SD/switch/.overlays')) {
+            await fs.mkdir('./SD/switch/.overlays');
+            console.log(colors.success(`Le dossier ${colors.default('hosts')} a été créé dans ${colors.default('SD/atmosphere')}.`));
+        };
 
         await fs.copy('./temp/sysmmc.txt', './SD/atmosphere/hosts/sysmmc.txt');
         console.log(colors.success(`Le fichier ${colors.default('temp/sysmmc.txt')} a été copié vers le dossier ${colors.default('SD/atmosphere/hosts')}.`));
@@ -311,18 +363,55 @@ async function checkKey(key) {
         console.log(colors.success(`Le fichier ${colors.default('temp/emummc.txt')} a été copié vers le dossier ${colors.default('SD/atmosphere/hosts')}.`));
         await fs.copy('./temp/TinWoo-Installer/', './SD/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/TinWoo-Installer')} a été copié vers le dossier ${colors.default('SD')}.`));
-        await fs.copy('./temp/tinfoil/', './SD/');
-        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/tinfoil')} a été copié vers le dossier ${colors.default('SD')}.`));
-
-        let homebrews = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('nro')) });
+        await fs.copy('./temp/boot-sound-nx/BootSoundNX/', './SD/');
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/boot-sound-nx/BootSoundNX/')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/lockpick-RCM.bin', './SD/bootloader/payloads/lockpick-RCM.bin');
+        console.log(colors.success(`Le fichier ${colors.default('temp/lockpick-RCM.bin')} a été copié vers le dossier ${colors.default('SD/bootloader/payloads')}.`));
+        await fs.copy('./temp/emuiibo/SdOut/', './SD/');
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/emuiibo/SdOut/')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/status-monitor-overlay.ovl', './SD/switch/.overlays/status-monitor-overlay.ovl');
+        console.log(colors.success(`Le fichier ${colors.default('temp/status-monitor-overlay.ovl')} a été copié vers le dossier ${colors.default('SD/switch/.overlays')}.`));
+        await fs.copy('./temp/ovl-sysmodules.ovl', './SD/switch/.overlays/ovl-sysmodules.ovl');
+        console.log(colors.success(`Le fichier ${colors.default('temp/ovl-sysmodules.ovl')} a été copié vers le dossier ${colors.default('SD/switch/.overlays')}.`));
+        await fs.copy('./temp/nx-bted/', './SD/');
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/nx-bted/')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/mission-control/', './SD/');
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/mission-control/')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/sys-tune/', './SD/');
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/sys-tune/')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/sys-ftpd-light/', './SD/');
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/sys-ftpd-light/')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/fastCFWswitch/', './SD/');
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/fastCFWswitch/')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/sys-ftpd-ovl.ovl', './SD/switch/.overlays/sys-ftpd-ovl.ovl');
+        console.log(colors.success(`Le fichier ${colors.default('temp/sys-ftpd-ovl.ovl')} a été copié vers le dossier ${colors.default('SD/switch/.overlays')}.`));
+        await fs.copy('./temp/ovlmenu/', './SD/');
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/ovlmenu/')} a été copié vers le dossier ${colors.default('SD')}.`));
         
+        if (fs.existsSync('./SD/config/BootSoundNX/sound/bootsound.mp3')) {
+            await fs.rm('./SD/config/BootSoundNX/sound/bootsound.mp3');
+        };
+        await fs.copy('./temp/bootsound.mp3', './SD/config/BootSoundNX/sound/bootsound.mp3');
+        console.log(colors.success(`Le fichier ${colors.default('temp/bootsound.mp3')} a été copié vers le dossier ${colors.default('SD/config/BootSoundNX/sound')}.`));
+        if (fs.existsSync('./SD/config/fastCFWSwitch/config.ini')) {
+            await fs.rm('./SD/config/fastCFWSwitch/config.ini');
+        };
+        await fs.copy('./temp/config.ini', './SD/config/fastCFWSwitch/config.ini');
+        console.log(colors.success(`Le fichier ${colors.default('temp/bootsound.mp3')} a été copié vers le dossier ${colors.default('SD/config/fastCFWSwitch')}.`));
+        if (fs.existsSync('./SD/config/sys-ftpd/config.ini')) {
+            await fs.rm('./SD/config/sys-ftpd/config.ini');
+        };
+        await fs.copy('./temp/config-sys-ftpd.ini', './SD/config/sys-ftpd/config.ini');
+        console.log(colors.success(`Le fichier ${colors.default('temp/bootsound.mp3')} a été copié vers le dossier ${colors.default('SD/config/fastCFWSwitch')}.`));
+        
+        let homebrews = ['EdiZon.nro', 'Goldleaf.nro','sigpatch-downloader.nro', 'JKSV.nro', 'nxmtp.nro', 'Switch_90DNS_tester.nro', 'nx-themes-installer.nro']
         for (let homebrew of homebrews) {
             await fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`);
             console.log(colors.success(`Le contenu du dossier ${colors.default(`temp/${homebrew}`)} a été copié vers le dossier ${colors.default('SD/switch')}.`));
         };
 
         console.log(colors.success('\nLe pack est en cours de création...\n'));
-        await ZIP.archiveFolder('./SD', './pack.zip');
+        await ZIP.archiveFolder('./SD', './AtmoPack-Full.zip');
 
         console.log(colors.success('Voici le contenu du pack:'));
         for (let file of files) {
