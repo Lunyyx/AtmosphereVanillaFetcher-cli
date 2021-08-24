@@ -274,7 +274,7 @@ async function checkKey(key) {
         await fs.copy('./temp/hekate/bootloader/', './SD/bootloader/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/hekate/bootloader')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/');
-        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/awoo_installer/switch')} a été copié vers le dossier ${colors.default('SD/switch')}.`));
+        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/fusee/atmosphere')} a été copié vers le dossier ${colors.default('SD/atmosphere')}.`));
         await fs.copy('./temp/fusee_primary.bin', './SD/bootloader/payloads/fusee-primary.bin');
         console.log(colors.success(`Le fichier ${colors.default('temp/fusee_primary.bin')} a été copié vers le dossier ${colors.default('SD/bootloader/payloads')}`));
         await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/payload.bin');
@@ -300,7 +300,7 @@ async function checkKey(key) {
         await fs.copy('./temp/TinWoo-Installer/', './SD/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/TinWoo-Installer')} a été copié vers le dossier ${colors.default('SD')}.`));
         
-        let homebrews = ['EdiZon.nro', 'Goldleaf.nro','sigpatch-downloader.nro', 'JKSV.nro', 'nxmtp.nro', 'Switch_90DNS_tester.nro']
+        let homebrews = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('nro')) });
         for (let homebrew of homebrews) {
             await fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`);
             console.log(colors.success(`Le contenu du dossier ${colors.default(`temp/${homebrew}`)} a été copié vers le dossier ${colors.default('SD/switch')}.`));
