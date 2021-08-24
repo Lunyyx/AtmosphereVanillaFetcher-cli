@@ -153,37 +153,26 @@ async function checkKey(key) {
             link: 'ITotalJustice/patches', desiredFiles: [{ 
                 exp: /^fusee\.zip$/, filename: 'fusee.zip' 
             }] 
-        }, 
-        { 
-            link: 'Huntereb/Awoo-Installer', desiredFiles: [{ 
-                exp: /^Awoo-Installer\.zip$/, filename: 'awoo_installer.zip' 
-            }] 
-        }, 
+        },
         { 
             link: 'WerWolv/EdiZon', desiredFiles: [{ 
-                exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro' 
+                exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro'
             }] 
         }, 
         { 
             link: 'XorTroll/Goldleaf', desiredFiles: [{ 
-                exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro' 
+                exp: /^Goldleaf\.nro$/, filename: 'Goldleaf.nro'
             }] 
-        }, 
-        { 
-            link: 'SciresM/Checkpoint', desiredFiles: [{ 
-                exp: /^Checkpoint\.nro$/, filename: 'Checkpoint.nro' 
-            }] 
-        }, 
-		
+        },		
 		{ 
             link: 'PoloNX/sigpatch-downloader', desiredFiles: [{ 
-                exp: /^sigpatch-downloader\.nro$/, filename: 'sigpatch-downloader.nro' 
+                exp: /^sigpatch-downloader\.nro$/, filename: 'sigpatch-downloader.nro'
             }] 
         }, 
 		
         { 
             link: 'J-D-K/JKSV', desiredFiles: [{ 
-                exp: /^JKSV\.nro$/, filename: 'JKSV.nro' 
+                exp: /^JKSV\.nro$/, filename: 'JKSV.nro'
             }] 
         }, 
         { 
@@ -193,7 +182,7 @@ async function checkKey(key) {
         }, 
         { 
             link: 'liuervehc/nxmtp', desiredFiles: [{ 
-                exp: /^nxmtp\.nro$/, filename: 'nxmtp.nro' 
+                exp: /^nxmtp\.nro$/, filename: 'nxmtp.nro'
             }] 
         }, 
         { 
@@ -203,9 +192,10 @@ async function checkKey(key) {
         }, 
         { 
             link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ 
-                exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro' 
+                exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro'
             }] 
-        }];
+        },
+    ];
 
     let files = [];
 
@@ -217,7 +207,7 @@ async function checkKey(key) {
         files = files.concat(release);
     };
 
-    files.push({ name: 'sxgear.zip', url: 'https://sx.xecuter.com/download/SX_Gear_v1.1.zip', version: 'v1.1' }, { name: 'tinfoil.zip', url: 'https://tinfoil.io/Home/Bounce/?url=https%3A%2F%2Ftinfoil.media%2Frepo%2Ftinfoil.latest.zip', version: 'v12.0' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '1.0.7' });
+    files.push({ name: 'sxgear.zip', url: 'http://mirror.gs2012.xyz/NSwitch/HOMEBREW/CFW/SXOS/SX%20Gear/SX_Gear_v1.0.zip', version: 'v1.1' }, { name: 'hekate_ipl.ini', url: 'https://nobuyoshi.red/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '1.0.7' });
 
     console.log(colors.warning('\nLes fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
 
@@ -285,8 +275,6 @@ async function checkKey(key) {
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/hekate/bootloader')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/fusee/atmosphere')} a été copié vers le dossier ${colors.default('SD/atmosphere')}.`));
-        await fs.copy('./temp/awoo_installer/switch/', './SD/switch/');
-        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/awoo_installer/switch')} a été copié vers le dossier ${colors.default('SD/switch')}.`));
         await fs.copy('./temp/fusee_primary.bin', './SD/bootloader/payloads/fusee-primary.bin');
         console.log(colors.success(`Le fichier ${colors.default('temp/fusee_primary.bin')} a été copié vers le dossier ${colors.default('SD/bootloader/payloads')}`));
         await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/payload.bin');
@@ -311,11 +299,8 @@ async function checkKey(key) {
         console.log(colors.success(`Le fichier ${colors.default('temp/emummc.txt')} a été copié vers le dossier ${colors.default('SD/atmosphere/hosts')}.`));
         await fs.copy('./temp/TinWoo-Installer/', './SD/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/TinWoo-Installer')} a été copié vers le dossier ${colors.default('SD')}.`));
-        await fs.copy('./temp/tinfoil/', './SD/');
-        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/tinfoil')} a été copié vers le dossier ${colors.default('SD')}.`));
-
-        let homebrews = await fs.readdir(output_folder).then(files => { return files.filter(f => f.endsWith('nro')) });
         
+        let homebrews = ['EdiZon.nro', 'Goldleaf.nro','sigpatch-downloader.nro', 'JKSV.nro', 'nxmtp.nro', 'Switch_90DNS_tester.nro', 'ftpd.nro']
         for (let homebrew of homebrews) {
             await fs.copy(`./temp/${homebrew}`, `./SD/switch/${homebrew}`);
             console.log(colors.success(`Le contenu du dossier ${colors.default(`temp/${homebrew}`)} a été copié vers le dossier ${colors.default('SD/switch')}.`));
