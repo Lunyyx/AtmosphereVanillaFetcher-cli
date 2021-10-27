@@ -183,7 +183,12 @@ async function checkKey(key) {
             link: 'mrdude2478/TinWoo', desiredFiles: [{ 
                 exp: /^TinWoo-Installer\.zip$/, filename: 'TinWoo-Installer.zip' 
             }] 
-        }, 
+        },
+         { 
+            link: 'rashevskyv/dbi', desiredFiles: [{ 
+                exp: /^DBI\.nro$/, filename: 'DBI.nro' 
+            }] 
+        },
         { 
             link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ 
                 exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro' 
