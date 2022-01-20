@@ -216,7 +216,7 @@ async function checkKey(key) {
         if (name == 'hekate.zip')
             hekate_version = version.replace('v', '');
         
-        let downloader = new Downloader({ url: url, directory: output_folder, filename: name, cloneFiles: false,
+        let downloader = new Downloader({ url: url, directory: output_folder, filename: name, cloneFiles: false, maxAttempts: 3,
             onBeforeSave: () => {
                 console.log(colors.warning(`\nLe fichier ${name} (${version}) est en cours de téléchargement...`));
                 bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
