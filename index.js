@@ -205,7 +205,7 @@ async function checkKey(key) {
         files = files.concat(release);
     };
 
-    files.push({ name: 'hekate_ipl.ini', url: 'https:/sighya.ga/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '2.0.9' });
+    files.push({ name: 'hekate_ipl.ini', url: 'https:/sighya.ga/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://sighya.ga/version.txt', version: '2.1.5' });
 
     console.log(colors.warning('\nLes fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
 
@@ -271,8 +271,6 @@ async function checkKey(key) {
         console.log(colors.success(`\nLe contenu du dossier ${colors.default('temp/atmosphere')} a été copié vers le dossier ${colors.default('SD')}.`));
         await fs.copy('./temp/hekate/bootloader/', './SD/bootloader/');
         console.log(colors.success(`Le contenu du dossier ${colors.default('temp/hekate/bootloader')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
-        await fs.copy('./temp/fusee/atmosphere/', './SD/atmosphere/');
-        console.log(colors.success(`Le contenu du dossier ${colors.default('temp/fusee/atmosphere')} a été copié vers le dossier ${colors.default('SD/atmosphere')}.`));
         await fs.copy('./temp/fusee.bin', './SD/bootloader/payloads/fusee.bin');
         console.log(colors.success(`Le fichier ${colors.default('temp/fusee.bin')} a été copié vers le dossier ${colors.default('SD/bootloader/payloads')}`));
         await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/payload.bin');
