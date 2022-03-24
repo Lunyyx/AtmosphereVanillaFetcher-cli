@@ -151,7 +151,7 @@ async function checkKey(key) {
         }, 
         { 
             link: 'ITotalJustice/patches', desiredFiles: [{ 
-                exp: /^fusee\.zip$/, filename: 'fusee.zip' 
+                exp: /^SigPatches\.zip$/, filename: 'SigPatches.zip' 
             }] 
         }, 
         { 
