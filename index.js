@@ -314,7 +314,7 @@ async function checkKey(key) {
 
         await fs.emptyDir('./temp/', { recursive: true });
         await fs.emptyDir('./SD/', { recursive: true });
-        console.log(colors.warning(`\nLe contenu des dossiers ${colors.default('temp')} et ${colors.default('SD')} ont étés supprimés.`), colors.success(`\nLe pack a été créé avec succès ${colors.default('(AtmoPack-Vanilla.zip \n Je ne ferais plus d\'aide aux utilisateurs sur sur l\'utilisation de ce pack. \n Si vous avez besoins d\'aide veuillez le faire sur le \n Discord de l\'îles des cocos \n  \n \Lien du discord : https://discord.gg/7PktcDKNAD)')}.`));
+        console.log(colors.warning(`\nLe contenu des dossiers ${colors.default('temp')} et ${colors.default('SD')} ont étés supprimés.`), colors.success(`\nLe pack a été créé avec succès ${colors.default('(AtmoPack-Vanilla.zip \n Je ne ferais plus d\'aide aux utilisateurs sur l\'utilisation de ce pack. \n Si vous avez besoins d\'aide veuillez le faire sur le \n Discord de l\'îles des cocos \n  \n \Lien du discord : https://discord.gg/7PktcDKNAD)')}.`));
     } catch (e) {
         console.log(colors.error(`[Copie et création du AtmoPack-Vanilla.zip] Une erreur est survenue: ${e}`));
     };
