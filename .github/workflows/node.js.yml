@@ -24,14 +24,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/upload-artifact@master
     - name: Use Node.js ${{ matrix.node-version }}
+    - name: AtmoPack-Vanilla
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        
+        path: AtmoPack-Vanilla.zip
+      
     - run: npm ci
-    - run: npm install -i
     - run: node index.js
     
  
