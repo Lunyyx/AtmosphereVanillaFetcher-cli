@@ -134,7 +134,7 @@ async function checkKey(key) {
             process.exit();
         };
     };
-
+    process.setMaxListeners(0);
     const desiredReleases = 
         [{ 
             link: 'CTCaer/hekate', desiredFiles: [{ 
