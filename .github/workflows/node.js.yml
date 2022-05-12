@@ -2,8 +2,11 @@ name: Node CI
 
 on: [push]
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
-  build_and_test:
+  AtmoPack-Vanilla_Release:
     runs-on: ubuntu-latest
     steps:
       - name: Create Pack
