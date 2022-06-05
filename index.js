@@ -189,6 +189,13 @@ async function checkKey(key) {
                 exp: /^DBI\.nro$/, filename: 'DBI.nro' 
             }] 
         },
+         
+         { 
+            link: 'PoloNX/PayloadReboot', desiredFiles: [{ 
+                exp: /^PayloadReboot\.nro$/, filename: 'PayloadReboot.nro' 
+            }] 
+        },
+         
         { 
             link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ 
                 exp: /^Switch_90DNS_tester\.nro$/, filename: 'Switch_90DNS_tester.nro' 
