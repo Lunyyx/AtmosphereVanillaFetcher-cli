@@ -58,6 +58,7 @@ Thanks to the developer for their work
 - Meganukebmp (Switch_90DNS_tester) : https://github.com/meganukebmp/Switch_90DNS_tester
 - PoloNX (sigpatch-downloader) : https://github.com/PoloNX/sigpatch-downloader
 - Sigpatch : https://github.com/THZoria/patches
+- PoloNX (PayloadReboot) : https://github.com/PoloNX/PayloadReboot
 
 Special thanks to SciresM and all the Reswitched team who made this possible ^^
 
