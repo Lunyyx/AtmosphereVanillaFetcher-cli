@@ -195,6 +195,11 @@ async function checkKey(key) {
                 exp: /^PayloadReboot\.nro$/, filename: 'PayloadReboot.nro' 
             }] 
         },
+         { 
+            link: 'PoloNX/AtmoPackUpdater', desiredFiles: [{ 
+                exp: /^AtmoPackUpdater\.nro$/, filename: 'AtmoPackUpdater.nro' 
+            }] 
+        },
          
         { 
             link: 'meganukebmp/Switch_90DNS_tester', desiredFiles: [{ 
@@ -212,7 +217,7 @@ async function checkKey(key) {
         files = files.concat(release);
     };
 
-    files.push({ name: 'hekate_ipl.ini', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/version.txt', version: 'B1-2.1.9' });
+    files.push({ name: 'hekate_ipl.ini', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/version.txt', version: 'B3-2.1.9' });
 
     console.log(colors.warning('\nLes fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
 
