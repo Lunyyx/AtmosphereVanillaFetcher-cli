@@ -20,13 +20,19 @@ jobs:
         with:
           name: AtmoPack-Vanilla
           path: AtmoPack-Vanilla.zip 
-      - name: Validate and extract release information
-        id: release
-        uses: manovotny/github-releases-for-automated-package-publishing-action@v1.0.0
-
-        # This will publish a version of a package.
-      - name: Publish version
-        if: steps.release.outputs.tag == ''
-        run: yarn publish --new-version ${{ steps.release.outputs.version }}
+      - name: Create Github Release
+        uses : action/create-release@v1
         env:
-              NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+         tag_name: ${{ github.run_number}}
+         release_name: Release ${{ github.run.number 
+      - name: Upload Release asset
+        uses: actions/upload-release-asset@v1
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+         upload_url: ${{ setps.create-new-release.outputs.upload_url }}
+         asset_path: ./AtmoPack-Vanilla.zip
+         asset_name: AtmoPack-Vanilla-v${{ github.run.number }}.zip
+         asset_content_type: application/zip
