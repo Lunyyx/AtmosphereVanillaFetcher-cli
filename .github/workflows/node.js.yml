@@ -21,7 +21,7 @@ jobs:
           name: AtmoPack-Vanilla
           path: AtmoPack-Vanilla.zip
       - name: Create Github Release
-        uses : action/create-release@v1
+        uses : actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
