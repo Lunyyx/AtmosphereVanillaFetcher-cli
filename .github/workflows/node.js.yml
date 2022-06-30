@@ -20,3 +20,7 @@ jobs:
         with:
           name: AtmoPack-Vanilla
           path: AtmoPack-Vanilla.zip
+      - name: Setup semantic-release
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog gradle-semantic-release-plugin -D
+      - name: Create semantic-release
+        run: npx semantic-release
