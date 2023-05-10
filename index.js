@@ -40,7 +40,7 @@ async function checkKey(key) {
 | | | | |_| | | | | | (_) \\__ \\ |_) | | | |  __/ | |  __/\\ \\_/ / (_| | | | | | | | (_| | ||  __/ || (__| | | |  __/ |   
 \\_| |_/\\__|_| |_| |_|\\___/|___/ .__/|_| |_|\\___|_|  \\___| \\___/ \\__,_|_| |_|_|_|_|\\__,_\\_| \\___|\\__\\___|_| |_|\\___|_|   
                               | |                                                                                       
-                              |_|      ✢                     ✢                        v2.0.0 By Lunyx, Zoria & Murasaki.    ✢                                                               
+                              |_|      ✢                     ✢                        v2.0.2 By Lunyx, Zoria & Murasaki.    ✢                                                               
 `));
 
     let GITHUB_TOKEN = '';
@@ -150,10 +150,10 @@ async function checkKey(key) {
             }] 
         }, 
         { 
-            link: 'ITotalJustice/patches', desiredFiles: [{ 
-                exp: /^SigPatches\.zip$/, filename: 'SigPatches.zip' 
+            link: 'PHRetroGamers/signature_gpd', desiredFiles: [{ 
+                exp: /^signature_gpd\.zip$/, filename: 'signature_gpd.zip' 
             }] 
-        }, 
+        },
         { 
             link: 'WerWolv/EdiZon', desiredFiles: [{ 
                 exp: /^EdiZon\.nro$/, filename: 'EdiZon.nro' 
@@ -174,14 +174,14 @@ async function checkKey(key) {
                 exp: /^ftpd\.nro$/, filename: 'ftpd.nro' 
             }] 
         }, 
-        { 
-            link: 'liuervehc/nxmtp', desiredFiles: [{ 
-                exp: /^nxmtp\.nro$/, filename: 'nxmtp.nro' 
-            }] 
-        }, 
+        //{ 
+        //    link: 'mrdude2478/TinWoo', desiredFiles: [{ 
+        //        exp: /^TinWoo-Installer\.zip$/, filename: 'TinWoo-Installer.zip' 
+        //    }] 
+        //},
         { 
             link: 'mrdude2478/TinWoo', desiredFiles: [{ 
-                exp: /^TinWoo-Installer\.zip$/, filename: 'TinWoo-Installer.zip' 
+                exp: /^TinWoo-Installer\.zip$/, filename: 'TinWoo-Installer.zip'
             }] 
         },
          { 
@@ -217,7 +217,7 @@ async function checkKey(key) {
         files = files.concat(release);
     };
 
-    files.push({ name: 'hekate_ipl.ini', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt', version: 'latest'}, { name: 'version.txt', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/version.txt', version: 'B3-2.1.9' });
+    files.push({ name: 'hekate_ipl.ini', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/hekate_ipl.ini', version: 'latest' }, { name: 'exosphere.ini', url: 'https://nobuyoshi.red/exosphere.ini', version: 'latest' }, { name: 'sysmmc.txt', url: 'https://nobuyoshi.red/sysmmc.txt', version: 'latest' }, { name: 'emummc.txt', url: 'https://nobuyoshi.red/emummc.txt',  version: 'latest'}, { name: 'version.txt', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/version.txt', version: 'v2.2.6' }, { name: 'boot.ini', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/boot.ini', version: 'latest' }, { name: 'boot.dat', url: 'https://raw.githubusercontent.com/THZoria/AtmoPack-Vanilla/main/download/boot.dat', version: 'latest' },);
 
     console.log(colors.warning('\nLes fichiers nécessaires à la création du pack sont en cours de téléchargement...'));
 
@@ -265,17 +265,8 @@ async function checkKey(key) {
         console.log(colors.success(`Le fichier ${colors.default(zip)} a été extrait avec succès.`));
     };
 
-    console.log(colors.warning('\nCréation du fichier boot.dat contenant hekate...'));
-
     fs.rename(`./temp/hekate/hekate_ctcaer_${hekate_version}.bin`, './temp/hekate/hekate_ctcaer.bin', () => {
         console.log(colors.warning(`Le fichier ${colors.default(`hekate_ctcaer_${hekate_version}.bin`)} a été renommé en ${colors.default('hekate_ctcaer.bin')}.`));
-    });
-
-    PythonShell.run('./python/tx_custom_boot.py', null, function (e) {
-        if (e) {
-            console.log(colors.error(`[Boot.dat] Une erreur est survenue: ${e}`));
-        };
-        console.log(colors.success(`Le fichier ${colors.default('boot.dat')} a été correctement créé.`));
     });
 
     try {
@@ -289,16 +280,21 @@ async function checkKey(key) {
         console.log(colors.success(`Le fichier ${colors.default('temp/hekate/hekate_ctcaer.bin')} a été copié vers le dossier ${colors.default('SD (payload.bin)')}.`));
         await fs.copy('./temp/hekate/hekate_ctcaer.bin', './SD/atmosphere/reboot_payload.bin');
         console.log(colors.success(`Le fichier ${colors.default('temp/hekate/hekate_ctcaer.bin')} a été copié vers le dossier ${colors.default('SD/atmosphere (reboot_payload.bin)')}.`));
-        await fs.copy('./temp/SigPatches/atmosphere', './SD/atmosphere');
-        console.log(colors.success(`Le fichier ${colors.default('temp/SigPatches/atmosphere')} a été copié vers le dossier ${colors.default('SD/atmosphere')}.`));
-        await fs.copy('./temp/SigPatches/bootloader', './SD/bootloader');
-        console.log(colors.success(`Le fichier ${colors.default('temp/SigPatches/bootloader')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
+        await fs.copy('./temp/signature_gpd/atmosphere', './SD/atmosphere');
+        console.log(colors.success(`Le fichier ${colors.default('temp/signature_gpd/atmosphere')} a été copié vers le dossier ${colors.default('SD/atmosphere')}.`));
+        await fs.copy('./temp/signature_gpd/bootloader', './SD/bootloader');
+        console.log(colors.success(`Le fichier ${colors.default('temp/signature_gpd/bootloader')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
+        console.log(colors.success(`Nintendo à attaqué le repo github d'iTotalJustice, ce dernier à été" retiré du script pour le moment, nous nous excusons pour la gène occasioné.`));
         await fs.copy('./temp/hekate_ipl.ini', './SD/bootloader/hekate_ipl.ini');
         console.log(colors.success(`Le fichier ${colors.default('temp/hekate_ipl.ini')} a été copié vers le dossier ${colors.default('SD/bootloader')}.`));
         await fs.copy('./temp/exosphere.ini', './SD/exosphere.ini');
         console.log(colors.success(`Le fichier ${colors.default('temp/exosphere.ini')} a été copié vers le dossier ${colors.default('SD')}.`));
         await fs.copy('./temp/version.txt', './SD/version.txt');
         console.log(colors.success(`Le fichier ${colors.default('temp/version.txt')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/boot.dat', './SD/boot.dat');
+        console.log(colors.success(`Le fichier ${colors.default('temp/boot.dat')} a été copié vers le dossier ${colors.default('SD')}.`));
+        await fs.copy('./temp/boot.ini', './SD/boot.ini');
+        console.log(colors.success(`Le fichier ${colors.default('temp/boot.ini')} a été copié vers le dossier ${colors.default('SD')}.`));
 
         if (!fs.existsSync('./SD/atmosphere/hosts')) {
             await fs.mkdir('./SD/atmosphere/hosts');
@@ -320,7 +316,7 @@ async function checkKey(key) {
         };
 
         console.log(colors.success('\nLe pack est en cours de création...\n'));
-        await ZIP.archiveFolder('./SD', './AtmoPack-Vanilla.zip');
+        await ZIP.archiveFolder('./SD', './AtmoPack-Vanilla_Latest.zip');
 
         console.log(colors.success('Voici le contenu du pack:'));
         for (let file of files) {
@@ -330,8 +326,8 @@ async function checkKey(key) {
 
         await fs.emptyDir('./temp/', { recursive: true });
         await fs.emptyDir('./SD/', { recursive: true });
-        console.log(colors.warning(`\nLe contenu des dossiers ${colors.default('temp')} et ${colors.default('SD')} ont étés supprimés.`), colors.success(`\nLe pack a été créé avec succès ${colors.default('(AtmoPack-Vanilla.zip \n Je ne ferais plus d\'aide aux utilisateurs sur l\'utilisation de ce pack. \n Si vous avez besoins d\'aide veuillez le faire sur le \n Discord de l\'îles des cocos \n  \n \Lien du discord : https://discord.gg/7PktcDKNAD)')}.`));
+        console.log(colors.warning(`\nLe contenu des dossiers ${colors.default('temp')} et ${colors.default('SD')} ont étés supprimés.`), colors.success(`\nLe pack a été créé avec succès ${colors.default('(AtmoPack-Vanilla_Latest.zip)')}.`));
     } catch (e) {
-        console.log(colors.error(`[Copie et création du AtmoPack-Vanilla.zip] Une erreur est survenue: ${e}`));
+        console.log(colors.error(`[Copie et création du AtmoPack-Vanilla_Latest.zip] Une erreur est survenue: ${e}`));
     };
 })();
